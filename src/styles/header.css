@@ -1,0 +1,323 @@
+/* Steam Header and Subnav Styling */
+
+.steam-global-header {
+  background-color: var(--steam-nav-bg);
+  width: 100%;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+  position: relative;
+  z-index: 100;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+}
+
+.steam-global-header-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  height: 104px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+}
+
+/* Steam Brand & Nav Links */
+.steam-brand-nav {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  height: 100%;
+}
+
+.steam-logo-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+
+.steam-logo-img {
+  height: 44px;
+  width: auto;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+}
+
+.steam-nav-items {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  height: 100%;
+}
+
+.steam-nav-link {
+  font-size: 14px;
+  font-weight: 600;
+  color: #c6d4df;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 8px 0;
+  position: relative;
+  transition: color 0.2s ease;
+}
+
+.steam-nav-link:hover {
+  color: #ffffff;
+}
+
+.steam-nav-link.active {
+  color: var(--steam-blue-primary);
+}
+
+.steam-nav-link.active::after {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: var(--steam-blue-primary);
+  box-shadow: 0 0 8px var(--steam-blue-glow);
+  border-radius: 2px;
+}
+
+/* Header User & Action Tools */
+.steam-header-tools {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+}
+
+.steam-header-tools-top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.steam-install-btn {
+  background-color: var(--steam-green-btn);
+  color: #e5e4dc;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 6px 10px;
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.steam-install-btn:hover {
+  background-color: var(--steam-green-btn-hover);
+  color: #ffffff;
+}
+
+.steam-install-icon {
+  width: 13px;
+  height: 13px;
+}
+
+.steam-top-links {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #b8b6b4;
+  font-size: 11px;
+}
+
+.steam-top-link:hover {
+  color: #ffffff;
+}
+
+/* User Profile Badge (Steam Authentic Look) */
+.steam-user-profile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 3px;
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.steam-user-profile:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.steam-user-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 2px;
+  border: 1px solid var(--steam-blue-primary);
+  box-shadow: 0 0 6px rgba(102, 192, 244, 0.4);
+}
+
+.steam-user-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.steam-username {
+  font-size: 12px;
+  font-weight: 600;
+  color: #ebebeb;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.steam-user-wallet {
+  font-size: 11px;
+  color: var(--steam-blue-primary);
+  font-weight: 500;
+}
+
+.steam-notif-bell {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #212c3d;
+  color: #66c0f4;
+  border-radius: 2px;
+  position: relative;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.steam-notif-bell:hover {
+  background: #2a3a50;
+  color: #ffffff;
+}
+
+.steam-notif-badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  background: #399121;
+  color: #ffffff;
+  font-size: 9px;
+  font-weight: bold;
+  padding: 1px 4px;
+  border-radius: 6px;
+}
+
+/* ==========================================================================
+   Store Sub-Navbar (Sua Loja, Categorias, etc.)
+   ========================================================================== */
+.steam-subnav-container {
+  width: 100%;
+  background: linear-gradient(90deg, rgba(24, 75, 115, 0.95) 0%, rgba(32, 90, 137, 0.95) 100%);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+  position: sticky;
+  top: 0;
+  z-index: 90;
+}
+
+.steam-subnav-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+}
+
+.steam-subnav-links {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  gap: 2px;
+}
+
+.steam-subnav-item {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 0 14px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #e5e5e5;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+  position: relative;
+}
+
+.steam-subnav-item:hover,
+.steam-subnav-item.active {
+  background: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+}
+
+.steam-subnav-item.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: #ffffff;
+}
+
+.steam-search-wrapper {
+  display: flex;
+  align-items: center;
+  background-color: #316282;
+  border-radius: 3px;
+  padding: 2px 4px 2px 10px;
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.2s ease;
+}
+
+.steam-search-wrapper:focus-within {
+  background-color: #3c779e;
+  border-color: var(--steam-blue-primary);
+  box-shadow: 0 0 6px var(--steam-blue-glow);
+}
+
+.steam-search-input {
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  font-size: 12px;
+  font-style: italic;
+  font-family: inherit;
+  outline: none;
+  width: 170px;
+}
+
+.steam-search-input::placeholder {
+  color: #8da4b5;
+}
+
+.steam-search-btn {
+  background: #447b9e;
+  color: #ffffff;
+  padding: 4px 8px;
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease;
+}
+
+.steam-search-btn:hover {
+  background: #5498c4;
+}
+
+/* Responsive adjustments */
+@media (max-width: 900px) {
+  .steam-subnav-item {
+    padding: 0 8px;
+    font-size: 11px;
+  }
+  .steam-search-input {
+    width: 110px;
+  }
+}

@@ -1,0 +1,433 @@
+/* Steam Sections Styling: Sidebar, Special Offers, Categories, Tabbed Browser & Footer */
+
+/* ==========================================================================
+   Left Sidebar Navigation
+   ========================================================================== */
+.steam-sidebar {
+  width: var(--steam-sidebar-width);
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+@media (max-width: 1024px) {
+  .steam-sidebar {
+    display: none;
+  }
+}
+
+.sidebar-giftcard-banner {
+  background: linear-gradient(135deg, #1b3d54 0%, #152736 100%);
+  border: 1px solid rgba(102, 192, 244, 0.2);
+  border-radius: 3px;
+  padding: 12px;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+}
+
+.sidebar-giftcard-banner:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 192, 244, 0.3);
+  border-color: var(--steam-blue-primary);
+}
+
+.sidebar-giftcard-title {
+  font-size: 11px;
+  font-weight: 700;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 4px;
+}
+
+.sidebar-giftcard-sub {
+  font-size: 11px;
+  color: var(--steam-blue-primary);
+}
+
+.sidebar-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sidebar-group-title {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #53708d;
+  letter-spacing: 0.05em;
+  margin-bottom: 6px;
+}
+
+.sidebar-link {
+  font-size: 12px;
+  color: #b8b6b4;
+  padding: 4px 6px;
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: color 0.15s, background 0.15s;
+}
+
+.sidebar-link:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.sidebar-bullet {
+  width: 4px;
+  height: 4px;
+  background-color: #66c0f4;
+  border-radius: 50%;
+  opacity: 0.7;
+}
+
+/* ==========================================================================
+   Special Offers Section
+   ========================================================================== */
+.special-offers-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+@media (max-width: 900px) {
+  .special-offers-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.special-offer-card {
+  background: #101c27;
+  border-radius: 2px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  position: relative;
+}
+
+.special-offer-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 16px rgba(102, 192, 244, 0.35);
+}
+
+.special-offer-img-wrapper {
+  width: 100%;
+  height: 135px;
+  position: relative;
+  overflow: hidden;
+  background: #000;
+}
+
+.special-offer-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.special-offer-card:hover .special-offer-img {
+  transform: scale(1.05);
+}
+
+.special-offer-badge-ribbon {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  background: #1b4b72;
+  color: #ffffff;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 3px 6px;
+  border-radius: 2px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+
+.special-offer-body {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 1;
+  background: linear-gradient(180deg, #101c27 0%, #0d1721 100%);
+}
+
+.special-offer-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.special-offer-timer {
+  font-size: 11px;
+  color: #8da4b5;
+  margin-bottom: 10px;
+}
+
+.special-offer-price-row {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* ==========================================================================
+   Browse Categories
+   ========================================================================== */
+.categories-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 12px;
+}
+
+@media (max-width: 900px) {
+  .categories-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.category-card {
+  height: 80px;
+  border-radius: 3px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+  transition: transform 0.2s ease, filter 0.2s ease;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.category-card:hover {
+  transform: translateY(-3px) scale(1.02);
+  filter: brightness(1.2);
+  border-color: var(--steam-blue-primary);
+}
+
+.category-icon {
+  font-size: 22px;
+}
+
+.category-name {
+  font-size: 12px;
+  font-weight: 600;
+  color: #ffffff;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+}
+
+/* ==========================================================================
+   Tabbed Game Browser ("Populares", "Mais Vendidos", etc.)
+   ========================================================================== */
+.steam-tabs-container {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 3px;
+  overflow: hidden;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.5);
+}
+
+.steam-tabs-header {
+  display: flex;
+  align-items: center;
+  background: #172430;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.steam-tab-btn {
+  padding: 10px 18px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #8da4b5;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-bottom: 2px solid transparent;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.steam-tab-btn:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.steam-tab-btn.active {
+  color: #ffffff;
+  background: #1e3144;
+  border-bottom-color: var(--steam-blue-primary);
+}
+
+.steam-tabs-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.steam-tab-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  background: rgba(0, 0, 0, 0.2);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+  transition: background 0.15s ease, transform 0.15s ease;
+  cursor: pointer;
+}
+
+.steam-tab-row:nth-child(even) {
+  background: rgba(0, 0, 0, 0.35);
+}
+
+.steam-tab-row:hover {
+  background: #20354b;
+  transform: translateX(3px);
+}
+
+.steam-tab-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex: 1;
+}
+
+.steam-tab-thumb {
+  width: 120px;
+  height: 45px;
+  border-radius: 2px;
+  overflow: hidden;
+  background: #000;
+  flex-shrink: 0;
+}
+
+.steam-tab-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.steam-tab-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.steam-tab-game-title {
+  font-size: 14px;
+  font-weight: 500;
+  color: #ffffff;
+}
+
+.steam-tab-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.steam-tab-platform-icons {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: #627282;
+}
+
+.steam-tab-tags {
+  font-size: 11px;
+  color: #708496;
+}
+
+.steam-tab-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.steam-tab-reviews {
+  font-size: 11px;
+  color: #66c0f4;
+}
+
+/* ==========================================================================
+   Steam Footer
+   ========================================================================== */
+.steam-footer {
+  background: #171a21;
+  color: #8f98a0;
+  padding: 40px 16px 60px 16px;
+  margin-top: 60px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  font-size: 12px;
+}
+
+.steam-footer-inner {
+  max-width: 940px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.steam-footer-rule {
+  width: 100%;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.steam-footer-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.steam-footer-text {
+  line-height: 1.6;
+  font-size: 12px;
+}
+
+.steam-footer-logos {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.valve-logo-text {
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  color: #c6d4df;
+  font-family: sans-serif;
+}
+
+.steam-footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px;
+  font-size: 12px;
+}
+
+.steam-footer-link {
+  color: #c6d4df;
+  transition: color 0.15s ease;
+}
+
+.steam-footer-link:hover {
+  color: #ffffff;
+}
+
+.steam-footer-separator {
+  color: rgba(255, 255, 255, 0.2);
+}

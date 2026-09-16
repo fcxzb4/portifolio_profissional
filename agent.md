@@ -1,0 +1,3 @@
+Estou criando um portifolio, profissional que seja interessante e nao monotono , por isso eu pensei em fazer parecido com a steam versao do aplicativo para pc, com as mesma paleta de cor e a mesma ui para a loja e biblioteca , aonde eu vou colocar meus jogos , projetos e conquistas e etc . 
+
+Utilizando react com utilização do firebase, para o autenticação dos usuários e para banco de dados e utilizando a arquitetura clean para organização das pastas e arquivos 
