@@ -3,7 +3,7 @@ import { ChevronLeft, ChevronRight, Monitor, Apple, Terminal } from 'lucide-reac
 import { featuredGames } from '../../core/mock/steamData';
 import '../../styles/carousel.css';
 
-export default function FeaturedCarousel() {
+export default function FeaturedCarousel({ onGameClick }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [hoveredScreenshot, setHoveredScreenshot] = useState(null);
   const [isPaused, setIsPaused] = useState(false);
@@ -68,7 +68,7 @@ export default function FeaturedCarousel() {
         </button>
 
         {/* Main Showcase Card */}
-        <div className="featured-card">
+        <div className="featured-card" onClick={() => onGameClick && onGameClick(currentGame)} style={{ cursor: 'pointer' }}>
           {/* Main Media Preview */}
           <div className="featured-left-media">
             <img

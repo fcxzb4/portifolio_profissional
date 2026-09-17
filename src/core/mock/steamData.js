@@ -18,7 +18,20 @@ export const featuredGames = [
     platforms: ["windows"],
     discount: 50,
     originalPrice: "R$ 199,90",
-    discountPrice: "R$ 99,95"
+    discountPrice: "R$ 99,95",
+    description: "Cyberpunk 2077 é um RPG de ação e aventura em mundo aberto ambientado na megalópole Night City, onde você assume o papel de um mercenário cyberpunk envolvido em uma luta pela sobrevivência.",
+    developer: "CD PROJEKT RED",
+    publisher: "CD PROJEKT RED",
+    hoursPlayed: 85,
+    lastPlayed: "12 Set, 2026",
+    achievements: [
+      { icon: "🏆", name: "V de Vitória", unlocked: true },
+      { icon: "🔫", name: "Primeiro Sangue", unlocked: true },
+      { icon: "🌃", name: "Night City Legend", unlocked: true },
+      { icon: "💀", name: "Sobrevivente", unlocked: false },
+      { icon: "🎯", name: "Precisão Letal", unlocked: true },
+      { icon: "🤖", name: "Full Chrome", unlocked: false }
+    ]
   },
   {
     id: "blackmyth",
@@ -38,7 +51,19 @@ export const featuredGames = [
     platforms: ["windows"],
     discount: 0,
     originalPrice: "R$ 229,99",
-    discountPrice: "R$ 229,99"
+    discountPrice: "R$ 229,99",
+    description: "Black Myth: Wukong é um RPG de ação baseado na mitologia chinesa. A história se inspira em Jornada ao Oeste, um dos Quatro Grandes Romances Clássicos da literatura chinesa.",
+    developer: "Game Science",
+    publisher: "Game Science",
+    hoursPlayed: 42,
+    lastPlayed: "10 Set, 2026",
+    achievements: [
+      { icon: "🐒", name: "Rei Macaco", unlocked: true },
+      { icon: "⚡", name: "Poder Divino", unlocked: true },
+      { icon: "🐉", name: "Domador de Dragões", unlocked: false },
+      { icon: "🏔️", name: "Topo da Montanha", unlocked: true },
+      { icon: "👊", name: "Combo Master", unlocked: false }
+    ]
   },
   {
     id: "baldursgate3",
@@ -58,7 +83,21 @@ export const featuredGames = [
     platforms: ["windows", "mac"],
     discount: 20,
     originalPrice: "R$ 199,99",
-    discountPrice: "R$ 159,99"
+    discountPrice: "R$ 159,99",
+    description: "Baldur's Gate 3 é um RPG de aventura repleto de histórias que traz uma narrativa surpreendente e toda a ação de D&D. Escolha seu grupo, faça alianças e lute para resistir à corrupção absoluta.",
+    developer: "Larian Studios",
+    publisher: "Larian Studios",
+    hoursPlayed: 156,
+    lastPlayed: "14 Set, 2026",
+    achievements: [
+      { icon: "🎲", name: "Rolagem Crítica", unlocked: true },
+      { icon: "⚔️", name: "Herói de Faerûn", unlocked: true },
+      { icon: "🧙", name: "Mestre Arcano", unlocked: true },
+      { icon: "💀", name: "Modo Honra", unlocked: false },
+      { icon: "🤝", name: "Diplomata", unlocked: true },
+      { icon: "🐉", name: "Matador de Dragões", unlocked: false },
+      { icon: "📖", name: "Leitor Ávido", unlocked: true }
+    ]
   },
   {
     id: "eldenring",
@@ -78,7 +117,20 @@ export const featuredGames = [
     platforms: ["windows"],
     discount: 0,
     originalPrice: "R$ 229,90",
-    discountPrice: "R$ 229,90"
+    discountPrice: "R$ 229,90",
+    description: "ELDEN RING é um RPG de ação criado por Hidetaka Miyazaki com worldbuilding de George R.R. Martin. Explore as Terras Intermédias em um vasto mundo repleto de perigos e mistérios.",
+    developer: "FromSoftware Inc.",
+    publisher: "Bandai Namco Entertainment",
+    hoursPlayed: 210,
+    lastPlayed: "8 Set, 2026",
+    achievements: [
+      { icon: "👑", name: "Lorde Elden", unlocked: true },
+      { icon: "🗡️", name: "Primeiro Boss", unlocked: true },
+      { icon: "🌙", name: "Lua Cheia", unlocked: true },
+      { icon: "🔥", name: "Chama Ancestral", unlocked: false },
+      { icon: "💎", name: "Colecionador", unlocked: false },
+      { icon: "⭐", name: "Todas as Estrelas", unlocked: false }
+    ]
   },
   {
     id: "cs2",
@@ -98,9 +150,22 @@ export const featuredGames = [
     platforms: ["windows", "linux"],
     discount: 0,
     originalPrice: "Gratuito p/ Jogar",
-    discountPrice: "Gratuito p/ Jogar"
+    discountPrice: "Gratuito p/ Jogar",
+    description: "Counter-Strike 2 eleva a experiência competitiva com gráficos aprimorados, novos mapas repensados e mecânicas de jogo atualizadas que definem o futuro do FPS competitivo.",
+    developer: "Valve",
+    publisher: "Valve",
+    hoursPlayed: 1320,
+    lastPlayed: "16 Set, 2026",
+    achievements: [
+      { icon: "🎯", name: "Headshot Master", unlocked: true },
+      { icon: "💣", name: "Especialista em Bombas", unlocked: true },
+      { icon: "🏅", name: "Rank Global", unlocked: false },
+      { icon: "🔪", name: "Knife Kill", unlocked: true },
+      { icon: "🎖️", name: "Veterano", unlocked: true }
+    ]
   }
 ];
+
 
 export const specialOffers = [
   {

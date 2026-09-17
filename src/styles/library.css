@@ -1,0 +1,831 @@
+/* ==========================================================================
+   Steam Library — Complete Styles
+   Réplica visual da interface da Biblioteca Desktop da Steam
+   ========================================================================== */
+
+/* Library Full-Screen Layout */
+.library-view {
+  display: flex;
+  width: 100%;
+  min-height: calc(100vh - 142px); /* header + subnav */
+  background: var(--steam-library-bg);
+}
+
+/* ==========================================================================
+   Library Sidebar (Left Panel)
+   ========================================================================== */
+.library-sidebar {
+  width: var(--steam-library-sidebar-width);
+  min-width: var(--steam-library-sidebar-width);
+  background: var(--steam-library-sidebar-bg);
+  border-right: 1px solid rgba(255, 255, 255, 0.06);
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 142px);
+  position: sticky;
+  top: 38px;
+  overflow: hidden;
+}
+
+/* Sidebar Top Actions */
+.library-sidebar-header {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 0;
+  background: #161d27;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  flex-shrink: 0;
+}
+
+.library-sidebar-tab {
+  flex: 1;
+  padding: 10px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #8f98a0;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+  background: transparent;
+  border-bottom: 2px solid transparent;
+}
+
+.library-sidebar-tab:hover {
+  color: #c6d4df;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.library-sidebar-tab.active {
+  color: #ffffff;
+  border-bottom-color: var(--steam-blue-primary);
+  background: rgba(102, 192, 244, 0.05);
+}
+
+/* Search */
+.library-search-wrapper {
+  padding: 8px 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  flex-shrink: 0;
+}
+
+.library-search-input {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 3px;
+  padding: 7px 10px 7px 30px;
+  font-size: 12px;
+  color: #c6d4df;
+  font-family: inherit;
+  outline: none;
+  transition: all 0.2s ease;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%238f98a0' stroke-width='2'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: 8px center;
+}
+
+.library-search-input::placeholder {
+  color: #576572;
+}
+
+.library-search-input:focus {
+  border-color: var(--steam-blue-primary);
+  background-color: rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 6px rgba(102, 192, 244, 0.15);
+}
+
+/* Game List */
+.library-games-list {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 4px 0;
+}
+
+.library-games-list::-webkit-scrollbar {
+  width: 4px;
+}
+
+.library-games-list::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+}
+
+/* Section label (RECENTES, TODOS OS JOGOS) */
+.library-section-label {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #576572;
+  padding: 12px 14px 6px;
+}
+
+/* Game Item in Sidebar */
+.library-game-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 14px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  position: relative;
+  border-left: 3px solid transparent;
+}
+
+.library-game-item:hover {
+  background: var(--steam-library-sidebar-hover);
+}
+
+.library-game-item.active {
+  background: var(--steam-library-sidebar-active);
+  border-left-color: var(--steam-blue-primary);
+}
+
+.library-game-item.active .library-game-title {
+  color: #ffffff;
+}
+
+.library-game-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 4px;
+  object-fit: cover;
+  flex-shrink: 0;
+  background: #0e141b;
+}
+
+.library-game-title {
+  font-size: 13px;
+  font-weight: 400;
+  color: #acb2b8;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: color 0.15s ease;
+}
+
+.library-game-item:hover .library-game-title {
+  color: #ffffff;
+}
+
+/* Status indicator (installed, downloading) */
+.library-game-status {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+.library-game-status.installed {
+  background: var(--steam-status-installed);
+  box-shadow: 0 0 4px rgba(92, 126, 16, 0.5);
+}
+
+.library-game-status.downloading {
+  background: var(--steam-download-bar);
+  animation: pulse-status 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse-status {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+/* Empty Library */
+.library-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.library-empty-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+  opacity: 0.3;
+}
+
+.library-empty-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #8f98a0;
+  margin-bottom: 8px;
+}
+
+.library-empty-text {
+  font-size: 12px;
+  color: #576572;
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+
+.library-empty-btn {
+  background: linear-gradient(to right, #47bfff 5%, #1a44c2 60%);
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 8px 20px;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+  font-family: inherit;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.library-empty-btn:hover {
+  filter: brightness(1.15);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(71, 191, 255, 0.3);
+}
+
+/* ==========================================================================
+   Game Detail Panel (Right / Main Area)
+   ========================================================================== */
+.library-detail-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  height: calc(100vh - 142px);
+  position: relative;
+  background: var(--steam-library-panel-bg);
+}
+
+/* Hero Section */
+.library-hero {
+  position: relative;
+  width: 100%;
+  min-height: 400px;
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 0 0 30px 0;
+}
+
+.library-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(14, 22, 33, 0) 0%,
+    rgba(14, 22, 33, 0.3) 40%,
+    rgba(14, 22, 33, 0.85) 75%,
+    rgba(14, 22, 33, 1) 100%
+  );
+  z-index: 1;
+}
+
+.library-hero-content {
+  position: relative;
+  z-index: 2;
+  padding: 0 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.library-game-logo {
+  max-width: 400px;
+  max-height: 120px;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.8));
+}
+
+.library-hero-title {
+  font-size: 36px;
+  font-weight: 700;
+  color: #ffffff;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+  letter-spacing: -0.01em;
+}
+
+/* Action Buttons Row */
+.library-action-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+/* PLAY Button (Steam Green) */
+.library-play-btn {
+  background: linear-gradient(135deg, #5c7e10 0%, #4e6b0d 100%);
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: 700;
+  font-family: inherit;
+  padding: 12px 60px;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  transition: all 0.25s ease;
+  box-shadow: 0 2px 8px rgba(92, 126, 16, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.library-play-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.1) 50%, transparent 100%);
+  transition: left 0.5s ease;
+}
+
+.library-play-btn:hover {
+  background: linear-gradient(135deg, #7ca82a 0%, #6a9118 100%);
+  box-shadow: 0 4px 20px var(--steam-green-play-glow);
+  transform: translateY(-1px);
+}
+
+.library-play-btn:hover::before {
+  left: 100%;
+}
+
+.library-play-btn:active {
+  transform: translateY(1px);
+  box-shadow: 0 1px 4px rgba(92, 126, 16, 0.3);
+}
+
+/* Pause/Download Button Variant */
+.library-download-btn {
+  background: linear-gradient(135deg, #1a9fff 0%, #1478cc 100%);
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 600;
+  font-family: inherit;
+  padding: 12px 40px;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  transition: all 0.25s ease;
+  box-shadow: 0 2px 8px rgba(26, 159, 255, 0.3);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.library-download-btn:hover {
+  background: linear-gradient(135deg, #47bfff 0%, #1a9fff 100%);
+  box-shadow: 0 4px 16px rgba(26, 159, 255, 0.4);
+  transform: translateY(-1px);
+}
+
+/* Secondary action buttons */
+.library-action-secondary {
+  background: rgba(103, 112, 120, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #c6d4df;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 10px 16px;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.library-action-secondary:hover {
+  background: rgba(103, 112, 120, 0.35);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Download Progress Bar */
+.library-download-progress {
+  width: 200px;
+  height: 6px;
+  background: var(--steam-download-bar-bg);
+  border-radius: 3px;
+  overflow: hidden;
+  position: relative;
+}
+
+.library-download-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #1a9fff 0%, #47bfff 100%);
+  border-radius: 3px;
+  transition: width 0.3s ease;
+  box-shadow: 0 0 8px rgba(26, 159, 255, 0.4);
+}
+
+.library-download-text {
+  font-size: 11px;
+  color: #8f98a0;
+}
+
+/* ==========================================================================
+   Game Info Tabs (below hero)
+   ========================================================================== */
+.library-tabs-bar {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  background: rgba(0, 0, 0, 0.3);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 0 40px;
+  position: relative;
+  z-index: 2;
+}
+
+.library-tab-btn {
+  padding: 12px 18px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #8f98a0;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-bottom: 2px solid transparent;
+  background: transparent;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  font-family: inherit;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.library-tab-btn:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.library-tab-btn.active {
+  color: #ffffff;
+  border-bottom-color: var(--steam-blue-primary);
+}
+
+/* ==========================================================================
+   Game Info Content Area
+   ========================================================================== */
+.library-content-area {
+  padding: 30px 40px;
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 30px;
+}
+
+/* Activity / Info Section */
+.library-activity {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.library-activity-header {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #576572;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* New Content Cards */
+.library-content-cards {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+}
+
+.library-content-card {
+  min-width: 160px;
+  max-width: 160px;
+  border-radius: 4px;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.library-content-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--steam-blue-primary);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.library-content-card-img {
+  width: 100%;
+  height: 90px;
+  object-fit: cover;
+}
+
+.library-content-card-title {
+  padding: 8px;
+  font-size: 11px;
+  color: #c6d4df;
+  font-weight: 500;
+}
+
+/* Game Description Section */
+.library-description {
+  font-size: 13px;
+  color: #acb2b8;
+  line-height: 1.7;
+}
+
+.library-description h3 {
+  font-size: 14px;
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 8px;
+}
+
+/* Tags */
+.library-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.library-tag {
+  background: rgba(102, 192, 244, 0.1);
+  color: var(--steam-blue-primary);
+  font-size: 11px;
+  padding: 3px 8px;
+  border-radius: 2px;
+  border: 1px solid rgba(102, 192, 244, 0.15);
+}
+
+/* ==========================================================================
+   Right Column (Friends + Achievements)
+   ========================================================================== */
+.library-right-col {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Friends who play */
+.library-friends-section {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  padding: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.library-friends-title {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #576572;
+  margin-bottom: 12px;
+}
+
+.library-friends-count {
+  font-size: 13px;
+  color: #acb2b8;
+  margin-bottom: 12px;
+}
+
+.library-friends-avatars {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.library-friend-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 2px;
+  background: #2a475e;
+  border: 1px solid rgba(102, 192, 244, 0.2);
+}
+
+/* Achievements */
+.library-achievements-section {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  padding: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.library-achievements-title {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #576572;
+  margin-bottom: 12px;
+}
+
+.library-achievements-progress {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.library-achievements-bar {
+  flex: 1;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.library-achievements-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--steam-blue-primary) 0%, #47bfff 100%);
+  border-radius: 3px;
+  transition: width 0.5s ease;
+}
+
+.library-achievements-text {
+  font-size: 12px;
+  color: #8f98a0;
+  white-space: nowrap;
+}
+
+.library-achievements-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(48px, 1fr));
+  gap: 6px;
+}
+
+.library-achievement-item {
+  width: 48px;
+  height: 48px;
+  border-radius: 4px;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.library-achievement-item:hover {
+  transform: scale(1.1);
+  border-color: var(--steam-blue-primary);
+  box-shadow: 0 0 8px rgba(102, 192, 244, 0.3);
+}
+
+.library-achievement-item.locked {
+  opacity: 0.35;
+  filter: grayscale(1);
+}
+
+.library-achievement-item.locked:hover {
+  opacity: 0.6;
+}
+
+/* Game Info Metadata */
+.library-meta-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.library-meta-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+}
+
+.library-meta-label {
+  color: #576572;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-weight: 600;
+}
+
+.library-meta-value {
+  color: #c6d4df;
+}
+
+.library-meta-value a {
+  color: var(--steam-blue-primary);
+  transition: color 0.2s;
+}
+
+.library-meta-value a:hover {
+  color: #ffffff;
+}
+
+/* ==========================================================================
+   No Game Selected State
+   ========================================================================== */
+.library-no-selection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: #576572;
+  gap: 12px;
+}
+
+.library-no-selection-icon {
+  font-size: 64px;
+  opacity: 0.15;
+}
+
+.library-no-selection-text {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* ==========================================================================
+   Animations
+   ========================================================================== */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.library-hero-content {
+  animation: fadeInUp 0.5s ease-out;
+}
+
+.library-game-item {
+  animation: fadeInUp 0.3s ease-out;
+  animation-fill-mode: both;
+}
+
+/* Stagger animation for game items */
+.library-game-item:nth-child(1) { animation-delay: 0.02s; }
+.library-game-item:nth-child(2) { animation-delay: 0.04s; }
+.library-game-item:nth-child(3) { animation-delay: 0.06s; }
+.library-game-item:nth-child(4) { animation-delay: 0.08s; }
+.library-game-item:nth-child(5) { animation-delay: 0.10s; }
+.library-game-item:nth-child(6) { animation-delay: 0.12s; }
+.library-game-item:nth-child(7) { animation-delay: 0.14s; }
+.library-game-item:nth-child(8) { animation-delay: 0.16s; }
+.library-game-item:nth-child(9) { animation-delay: 0.18s; }
+.library-game-item:nth-child(10) { animation-delay: 0.20s; }
+
+/* Responsive */
+@media (max-width: 1100px) {
+  .library-content-area {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .library-sidebar {
+    width: 200px;
+    min-width: 200px;
+  }
+  
+  .library-hero {
+    min-height: 280px;
+  }
+
+  .library-hero-title {
+    font-size: 24px;
+  }
+
+  .library-content-area {
+    padding: 20px;
+  }
+}

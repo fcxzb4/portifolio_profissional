@@ -1,4 +1,6 @@
 @import './variables.css';
+@import './library.css';
+@import './gamepage.css';
 
 /* CSS Reset & Steam Global Typography */
 *, *::before, *::after {

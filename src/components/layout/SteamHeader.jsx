@@ -1,16 +1,35 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Download, Bell, ChevronDown } from 'lucide-react';
+import { useNavigation } from '../../context/NavigationContext';
 import '../../styles/header.css';
 
 export default function SteamHeader() {
-  const [activeTab, setActiveTab] = useState('loja');
+  const { activeView, setActiveView, goToStore, goToLibrary } = useNavigation();
+
+  const navTabs = [
+    { id: 'loja', label: 'LOJA' },
+    { id: 'biblioteca', label: 'BIBLIOTECA' },
+    { id: 'comunidade', label: 'COMUNIDADE' },
+    { id: 'sobre', label: 'SOBRE' },
+    { id: 'suporte', label: 'SUPORTE' }
+  ];
+
+  function handleTabClick(tabId) {
+    if (tabId === 'loja') {
+      goToStore();
+    } else if (tabId === 'biblioteca') {
+      goToLibrary();
+    } else {
+      setActiveView(tabId);
+    }
+  }
 
   return (
     <header className="steam-global-header">
       <div className="steam-global-header-inner">
         {/* Steam Brand Logo & Main Navigation */}
         <div className="steam-brand-nav">
-          <a href="#" className="steam-logo-link" title="Página inicial do Steam">
+          <a href="#" className="steam-logo-link" title="Página inicial do Steam" onClick={(e) => { e.preventDefault(); goToStore(); }}>
             {/* Steam Official Logo SVG */}
             <svg
               className="steam-logo-img"
@@ -38,34 +57,16 @@ export default function SteamHeader() {
           </a>
 
           <nav className="steam-nav-items">
-            <a
-              href="#store"
-              className={`steam-nav-link ${activeTab === 'loja' ? 'active' : ''}`}
-              onClick={(e) => { e.preventDefault(); setActiveTab('loja'); }}
-            >
-              LOJA
-            </a>
-            <a
-              href="#community"
-              className={`steam-nav-link ${activeTab === 'comunidade' ? 'active' : ''}`}
-              onClick={(e) => { e.preventDefault(); setActiveTab('comunidade'); }}
-            >
-              COMUNIDADE
-            </a>
-            <a
-              href="#about"
-              className={`steam-nav-link ${activeTab === 'sobre' ? 'active' : ''}`}
-              onClick={(e) => { e.preventDefault(); setActiveTab('sobre'); }}
-            >
-              SOBRE
-            </a>
-            <a
-              href="#support"
-              className={`steam-nav-link ${activeTab === 'suporte' ? 'active' : ''}`}
-              onClick={(e) => { e.preventDefault(); setActiveTab('suporte'); }}
-            >
-              SUPORTE
-            </a>
+            {navTabs.map((tab) => (
+              <a
+                key={tab.id}
+                href={`#${tab.id}`}
+                className={`steam-nav-link ${activeView === tab.id ? 'active' : ''}`}
+                onClick={(e) => { e.preventDefault(); handleTabClick(tab.id); }}
+              >
+                {tab.label}
+              </a>
+            ))}
           </nav>
         </div>
 

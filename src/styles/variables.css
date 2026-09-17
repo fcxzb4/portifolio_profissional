@@ -43,4 +43,23 @@
   --steam-sidebar-width: 210px;
   --steam-radius-sm: 2px;
   --steam-radius-md: 4px;
+
+  /* Library Specific */
+  --steam-library-sidebar-bg: #1a2332;
+  --steam-library-sidebar-hover: #263b50;
+  --steam-library-sidebar-active: #1e3a5f;
+  --steam-library-sidebar-width: 250px;
+  --steam-library-bg: #1b2838;
+  --steam-library-panel-bg: #0e1621;
+
+  /* Play Button */
+  --steam-green-play: #5c7e10;
+  --steam-green-play-hover: #7ca82a;
+  --steam-green-play-glow: rgba(164, 208, 7, 0.4);
+
+  /* Download / Status */
+  --steam-download-bar: #1a9fff;
+  --steam-download-bar-bg: #1a2633;
+  --steam-status-installed: #5c7e10;
+  --steam-status-update: #ffc82c;
 }
