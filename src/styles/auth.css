@@ -1,0 +1,376 @@
+/* ==========================================================================
+   Steam Authentication Modal & Screens (Login & Register)
+   ========================================================================== */
+
+.steam-auth-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.78);
+  backdrop-filter: blur(6px);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: authFadeIn 0.2s ease-out;
+}
+
+@keyframes authFadeIn {
+  from { opacity: 0; transform: scale(0.98); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.steam-auth-window {
+  background: linear-gradient(180deg, #212429 0%, #181a21 100%);
+  border: 1px solid #3c4048;
+  border-radius: 4px;
+  width: 100%;
+  max-width: 820px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9), 0 0 1px rgba(255, 255, 255, 0.2);
+  color: #c6d4df;
+  font-family: "Motiva Sans", "Segoe UI", Arial, Helvetica, sans-serif;
+  overflow: hidden;
+  position: relative;
+}
+
+.steam-auth-window.register-mode {
+  max-width: 580px;
+}
+
+/* Modal Top Bar */
+.steam-auth-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 18px;
+  background: #171a21;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.steam-auth-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.steam-auth-logo-svg {
+  width: 22px;
+  height: 22px;
+  fill: #c6d4df;
+}
+
+.steam-auth-brand-name {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: #c6d4df;
+}
+
+.steam-auth-close-btn {
+  background: transparent;
+  border: none;
+  color: #8f98a0;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.steam-auth-close-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}
+
+/* Main Modal Content */
+.steam-auth-content {
+  padding: 30px 40px;
+}
+
+/* Two-column layout for login */
+.steam-auth-login-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 36px;
+  align-items: start;
+}
+
+@media (max-width: 720px) {
+  .steam-auth-login-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+}
+
+/* Headers */
+.steam-auth-heading {
+  font-size: 26px;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+.steam-auth-subheading {
+  font-size: 13px;
+  color: #8f98a0;
+  margin-top: -12px;
+  margin-bottom: 22px;
+}
+
+/* Error Banner */
+.steam-auth-error {
+  background: linear-gradient(90deg, #c93636 0%, #8b1f1f 100%);
+  border: 1px solid #ff4d4d;
+  color: #ffffff;
+  padding: 10px 14px;
+  border-radius: 3px;
+  font-size: 13px;
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 4px 12px rgba(201, 54, 54, 0.3);
+  animation: shake 0.3s ease-in-out;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-4px); }
+  75% { transform: translateX(4px); }
+}
+
+/* Form Styles */
+.steam-auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.steam-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.steam-form-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: #8f98a0;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.steam-form-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.steam-form-input {
+  width: 100%;
+  background: #32353c;
+  border: 1px solid #23262e;
+  border-radius: 3px;
+  color: #ffffff;
+  font-size: 14px;
+  padding: 10px 12px;
+  outline: none;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.steam-form-input:focus {
+  background: #393c44;
+  border-color: #5383a1;
+  box-shadow: 0 0 6px rgba(83, 131, 161, 0.5);
+}
+
+.steam-form-input::placeholder {
+  color: #62656d;
+}
+
+.steam-password-toggle {
+  position: absolute;
+  right: 10px;
+  background: transparent;
+  border: none;
+  color: #8f98a0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 4px;
+}
+
+.steam-password-toggle:hover {
+  color: #ffffff;
+}
+
+/* Checkbox */
+.steam-checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: #8f98a0;
+  cursor: pointer;
+  user-select: none;
+  margin-top: 2px;
+}
+
+.steam-checkbox-label input[type="checkbox"] {
+  accent-color: #1a9fff;
+  width: 15px;
+  height: 15px;
+  cursor: pointer;
+}
+
+.steam-checkbox-label:hover {
+  color: #c6d4df;
+}
+
+/* Primary Button */
+.steam-primary-btn {
+  background: linear-gradient(90deg, #06bfff 0%, #2d73ff 100%);
+  border: none;
+  border-radius: 3px;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 600;
+  padding: 12px 24px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 15px rgba(45, 115, 255, 0.35);
+  letter-spacing: 0.03em;
+  margin-top: 8px;
+  font-family: inherit;
+}
+
+.steam-primary-btn:hover:not(:disabled) {
+  filter: brightness(1.15);
+  box-shadow: 0 6px 20px rgba(45, 115, 255, 0.5);
+  transform: translateY(-1px);
+}
+
+.steam-primary-btn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+/* Secondary Button / Links */
+.steam-auth-links {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.steam-auth-link {
+  color: #8f98a0;
+  font-size: 12px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.2s;
+  background: transparent;
+  border: none;
+  padding: 0;
+  text-align: left;
+  font-family: inherit;
+}
+
+.steam-auth-link:hover {
+  color: #ffffff;
+  text-decoration: underline;
+}
+
+.steam-auth-link strong {
+  color: #66c0f4;
+}
+
+/* QR Code Section (Right Column) */
+.steam-qr-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 10px 14px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.steam-qr-title {
+  font-size: 11px;
+  font-weight: 700;
+  color: #8f98a0;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+
+.steam-qr-box {
+  background: #ffffff;
+  padding: 14px;
+  border-radius: 6px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 180px;
+  height: 180px;
+}
+
+.steam-qr-box svg {
+  width: 100%;
+  height: 100%;
+}
+
+.steam-qr-text {
+  font-size: 12px;
+  color: #8f98a0;
+  margin-top: 14px;
+  line-height: 1.4;
+  max-width: 220px;
+}
+
+.steam-qr-text span {
+  color: #66c0f4;
+  font-weight: 600;
+}
+
+/* Register Modal Extras */
+.steam-register-terms {
+  font-size: 11px;
+  color: #70757d;
+  line-height: 1.4;
+  margin-top: 4px;
+}
+
+.steam-register-terms a {
+  color: #8f98a0;
+  text-decoration: underline;
+}
+
+/* Loading Spinner */
+.steam-spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  animation: steamSpin 0.7s linear infinite;
+}
+
+@keyframes steamSpin {
+  to { transform: rotate(360deg); }
+}

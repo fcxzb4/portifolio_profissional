@@ -20,6 +20,7 @@ export default function LibraryView() {
         selectedGame={selectedLibraryGame}
         onSelectGame={setSelectedLibraryGame}
         onGoToStore={goToStore}
+        isLoading={isLoadingLibrary}
       />
       <GameDetailPanel
         game={selectedLibraryGame}

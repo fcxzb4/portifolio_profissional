@@ -2,7 +2,7 @@ import React from 'react';
 import { specialOffers } from '../../core/mock/steamData';
 import '../../styles/sections.css';
 
-export default function SpecialOffers() {
+export default function SpecialOffers({ onGameClick }) {
   return (
     <section className="special-offers-section">
       <div className="steam-section-header">
@@ -12,7 +12,14 @@ export default function SpecialOffers() {
 
       <div className="special-offers-grid">
         {specialOffers.map((offer) => (
-          <div key={offer.id} className="special-offer-card">
+          <div
+            key={offer.id}
+            className="special-offer-card"
+            style={{ cursor: 'pointer' }}
+            onClick={() => onGameClick && onGameClick(offer)}
+            title={`Ver página de ${offer.title}`}
+          >
+
             <div className="special-offer-img-wrapper">
               <img
                 src={offer.capsule || offer.image}

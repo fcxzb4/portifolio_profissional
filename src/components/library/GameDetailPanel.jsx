@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
-import { ExternalLink, GitBranch } from 'lucide-react';
+import { ExternalLink, GitBranch, Trash2, Play, CheckCircle } from 'lucide-react';
+import { useNavigation } from '../../context/NavigationContext';
 import '../../styles/library.css';
 
 export default function GameDetailPanel({ game }) {
+  const { playGame, uninstallGame } = useNavigation();
   const [activeTab, setActiveTab] = useState('store');
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [isUninstalling, setIsUninstalling] = useState(false);
 
   if (!game) {
     return (
@@ -18,6 +22,7 @@ export default function GameDetailPanel({ game }) {
     );
   }
 
+  const gameId = game.id || game.gameId;
   const title = game.title || 'Jogo';
   const heroBanner = game.heroBanner || game.mainImage || '';
   const screenshots = game.screenshots || [];
@@ -27,7 +32,7 @@ export default function GameDetailPanel({ game }) {
   const publisher = game.publisher || 'Desconhecido';
   const achievements = game.achievements || [];
   const hoursPlayed = game.hoursPlayed || 0;
-  const lastPlayed = game.lastPlayed || 'Nunca';
+  const lastPlayed = game.lastPlayed || 'Hoje';
 
   const totalAchievements = achievements.length;
   const unlockedAchievements = achievements.filter(a => a.unlocked).length;
@@ -44,8 +49,24 @@ export default function GameDetailPanel({ game }) {
     { id: 'support', label: 'Suporte' }
   ];
 
+  async function handlePlay() {
+    setIsPlaying(true);
+    await playGame(gameId);
+    setTimeout(() => {
+      setIsPlaying(false);
+    }, 3000);
+  }
+
+  async function handleUninstall() {
+    if (window.confirm(`Deseja desinstalar "${title}" da sua biblioteca?`)) {
+      setIsUninstalling(true);
+      await uninstallGame(gameId);
+      setIsUninstalling(false);
+    }
+  }
+
   return (
-    <div className="library-detail-panel" key={game.id || game.gameId}>
+    <div className="library-detail-panel" key={gameId}>
       {/* Hero Section with Background */}
       <div
         className="library-hero"
@@ -56,18 +77,40 @@ export default function GameDetailPanel({ game }) {
 
           {/* Action Buttons */}
           <div className="library-action-row">
-            <button className="library-play-btn" title="Jogar">
-              ▶ JOGAR
+            <button
+              className={`library-play-btn ${isPlaying ? 'playing' : ''}`}
+              title={isPlaying ? "Jogo em execução..." : "Jogar"}
+              onClick={handlePlay}
+              disabled={isPlaying}
+            >
+              {isPlaying ? 'EXECUTANDO...' : '▶ JOGAR'}
             </button>
-            <button className="library-action-secondary" title="Código Fonte">
+            <button
+              className="library-action-secondary"
+              title="Código Fonte"
+              onClick={() => alert(`Código-fonte do projeto "${title}" em desenvolvimento.`)}
+            >
               <GitBranch size={14} />
               Código Fonte
+            </button>
+            <button
+              className="library-action-secondary danger"
+              title="Desinstalar Jogo"
+              onClick={handleUninstall}
+              disabled={isUninstalling}
+            >
+              <Trash2 size={14} />
+              {isUninstalling ? 'Desinstalando...' : 'Desinstalar'}
             </button>
           </div>
 
           {/* Download status text */}
           <div className="library-download-text">
-            INICIANDO DOWNLOAD · Iniciando download...
+            {isPlaying ? (
+              <span style={{ color: '#a4d007' }}>🟢 EM EXECUÇÃO · Aproveite a sessão de jogo!</span>
+            ) : (
+              <span><CheckCircle size={12} style={{ display: 'inline', marginRight: 4 }} /> INSTALADO · Pronto para jogar · {hoursPlayed}h registradas</span>
+            )}
           </div>
         </div>
       </div>

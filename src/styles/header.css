@@ -321,3 +321,93 @@
     width: 110px;
   }
 }
+
+/* User Account & Login Buttons */
+.steam-login-link-btn {
+  background: transparent;
+  border: none;
+  color: #b8b6b4;
+  font-size: 11px;
+  cursor: pointer;
+  padding: 0;
+  font-family: inherit;
+  transition: color 0.2s;
+}
+
+.steam-login-link-btn:hover {
+  color: #ffffff;
+}
+
+.steam-login-highlight-btn {
+  background: linear-gradient(90deg, #06bfff 0%, #2d73ff 100%);
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 2px;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(45, 115, 255, 0.3);
+  font-family: inherit;
+}
+
+.steam-login-highlight-btn:hover {
+  filter: brightness(1.15);
+  transform: translateY(-1px);
+}
+
+/* User profile dropdown menu */
+.steam-user-profile-wrapper {
+  position: relative;
+}
+
+.steam-user-dropdown {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  background: #171a21;
+  border: 1px solid #3c4048;
+  border-radius: 3px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.8);
+  min-width: 180px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  padding: 6px 0;
+}
+
+.steam-dropdown-item {
+  background: transparent;
+  border: none;
+  color: #c6d4df;
+  font-size: 12px;
+  padding: 8px 16px;
+  text-align: left;
+  cursor: pointer;
+  font-family: inherit;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background 0.15s, color 0.15s;
+}
+
+.steam-dropdown-item:hover {
+  background: #2a475e;
+  color: #ffffff;
+}
+
+.steam-dropdown-item.logout {
+  color: #ff7b7b;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  margin-top: 4px;
+}
+
+.steam-dropdown-item.logout:hover {
+  background: rgba(255, 80, 80, 0.15);
+  color: #ffaaaa;
+}
+

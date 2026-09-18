@@ -1,17 +1,42 @@
-import React from 'react';
-import { Download, Bell, ChevronDown } from 'lucide-react';
+import React, { useState, useRef, useEffect } from 'react';
+import { Download, Bell, ChevronDown, LogIn, LogOut, User as UserIcon } from 'lucide-react';
 import { useNavigation } from '../../context/NavigationContext';
 import '../../styles/header.css';
 
 export default function SteamHeader() {
-  const { activeView, setActiveView, goToStore, goToLibrary } = useNavigation();
+  const {
+    activeView,
+    setActiveView,
+    goToStore,
+    goToLibrary,
+    goToProfile,
+    userProfile,
+    isLoggedIn,
+    currentUser,
+    openLoginModal,
+    logout
+  } = useNavigation();
+
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
+
+  // Fecha dropdown ao clicar fora
+  useEffect(() => {
+    function handleClickOutside(e) {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+        setDropdownOpen(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   const navTabs = [
     { id: 'loja', label: 'LOJA' },
     { id: 'biblioteca', label: 'BIBLIOTECA' },
+    { id: 'perfil', label: 'PERFIL' },
     { id: 'comunidade', label: 'COMUNIDADE' },
-    { id: 'sobre', label: 'SOBRE' },
-    { id: 'suporte', label: 'SUPORTE' }
+    { id: 'sobre', label: 'SOBRE' }
   ];
 
   function handleTabClick(tabId) {
@@ -19,10 +44,16 @@ export default function SteamHeader() {
       goToStore();
     } else if (tabId === 'biblioteca') {
       goToLibrary();
+    } else if (tabId === 'perfil') {
+      goToProfile();
     } else {
       setActiveView(tabId);
     }
   }
+
+  // Nome exibido do usuário e avatar
+  const displayName = userProfile?.personaName || currentUser?.displayName || (currentUser?.email ? currentUser.email.split('@')[0] : 'GamerDeveloper');
+  const userAvatar = userProfile?.avatarUrl || 'https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_medium.jpg';
 
   return (
     <header className="steam-global-header">
@@ -73,39 +104,78 @@ export default function SteamHeader() {
         {/* User profile, install button & language */}
         <div className="steam-header-tools">
           <div className="steam-header-tools-top">
-            <button className="steam-install-btn" title="Baixar cliente Steam">
-              <Download className="steam-install-icon" />
-              <span>Instalar o Steam</span>
-            </button>
 
-            <div className="steam-notif-bell" title="Notificações">
-              <Bell size={14} />
-              <span className="steam-notif-badge">3</span>
-            </div>
-
-            <div className="steam-top-links">
-              <span className="steam-top-link">idioma</span>
-              <ChevronDown size={12} />
-            </div>
-          </div>
-
-          {/* User Account Widget */}
-          <div className="steam-user-profile" title="Ver perfil">
-            <img
-              src="https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_medium.jpg"
-              alt="Avatar do Usuário"
-              className="steam-user-avatar"
-            />
-            <div className="steam-user-info">
-              <div className="steam-username">
-                <span>GamerDeveloper</span>
-                <ChevronDown size={11} />
+            {isLoggedIn ? (
+              <div className="steam-notif-bell" title="Notificações">
+                <Bell size={14} />
+                <span className="steam-notif-badge">1</span>
               </div>
-              <div className="steam-user-wallet">R$ 145,20</div>
-            </div>
+            ) : (
+              <button
+                className="steam-login-link-btn"
+                onClick={openLoginModal}
+                title="Iniciar sessão no Steam"
+              >
+                iniciar sessão
+              </button>
+            )}
           </div>
+
+          {/* User Account Widget or Login Button */}
+          {isLoggedIn ? (
+            <div className="steam-user-profile-wrapper" ref={dropdownRef}>
+              <div
+                className="steam-user-profile"
+                title="Opções da Conta"
+                onClick={() => setDropdownOpen(!dropdownOpen)}
+              >
+                <img
+                  src={userAvatar}
+                  alt="Avatar do Usuário"
+                  className="steam-user-avatar"
+                />
+                <div className="steam-user-info">
+                  <div className="steam-username">
+                    <span>{displayName}</span>
+                    <ChevronDown size={11} />
+                  </div>
+                  <div className="steam-user-wallet">R$ 150,00</div>
+                </div>
+              </div>
+
+              {/* Dropdown Menu */}
+              {dropdownOpen && (
+                <div className="steam-user-dropdown">
+                  <button
+                    className="steam-dropdown-item"
+                    onClick={() => { setDropdownOpen(false); goToProfile(); }}
+                  >
+                    <UserIcon size={14} />
+                    <span>Ver meu perfil</span>
+                  </button>
+                  <button
+                    className="steam-dropdown-item logout"
+                    onClick={() => { setDropdownOpen(false); logout(); }}
+                  >
+                    <LogOut size={14} />
+                    <span>Encerrar sessão</span>
+                  </button>
+                </div>
+              )}
+            </div>
+          ) : (
+            <button
+              className="steam-login-highlight-btn"
+              onClick={openLoginModal}
+              title="Iniciar sessão ou criar conta"
+            >
+              <LogIn size={13} />
+              <span>Iniciar sessão</span>
+            </button>
+          )}
         </div>
       </div>
     </header>
   );
 }
+

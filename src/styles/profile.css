@@ -1,0 +1,1360 @@
+/* ==========================================================================
+   STEAM PROFILE PAGE STYLES (Alta Fidelidade)
+   ========================================================================== */
+
+.steam-profile-wrapper {
+  min-height: 100vh;
+  background-color: #171a21;
+  background-image: 
+    radial-gradient(circle at 50% 0%, rgba(42, 71, 94, 0.45) 0%, rgba(23, 26, 33, 0.95) 75%),
+    linear-gradient(180deg, #1b2838 0%, #171a21 400px);
+  background-attachment: fixed;
+  color: #c7d5e0;
+  font-family: var(--steam-font-main);
+  padding: 24px 0 60px 0;
+  display: flex;
+  justify-content: center;
+}
+
+.steam-profile-container {
+  width: 100%;
+  max-width: 1018px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+/* --------------------------------------------------------------------------
+   PROFILE HEADER (Cabeçalho com Avatar, Bio, Nível e Insígnia)
+   -------------------------------------------------------------------------- */
+.steam-profile-header-card {
+  background: rgba(14, 22, 33, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(84, 133, 166, 0.25);
+  border-radius: 4px;
+  padding: 24px 28px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 24px;
+  margin-bottom: 16px;
+  position: relative;
+  overflow: hidden;
+}
+
+.steam-profile-header-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #66c0f4 0%, #2a475e 50%, transparent 100%);
+}
+
+/* Coluna Esquerda: Avatar + Detalhes */
+.steam-profile-left-hero {
+  display: flex;
+  gap: 24px;
+  flex: 1;
+}
+
+/* Moldura e Avatar */
+.steam-avatar-frame-wrap {
+  position: relative;
+  width: 166px;
+  height: 166px;
+  flex-shrink: 0;
+}
+
+.steam-avatar-img {
+  width: 160px;
+  height: 160px;
+  border-radius: 4px;
+  object-fit: cover;
+  display: block;
+  border: 2px solid #57cbde;
+  box-shadow: 0 0 15px rgba(87, 203, 222, 0.35);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.steam-avatar-img:hover {
+  transform: scale(1.02);
+  box-shadow: 0 0 22px rgba(87, 203, 222, 0.6);
+}
+
+.steam-avatar-status-badge {
+  position: absolute;
+  bottom: 0px;
+  left: 6px;
+  right: 6px;
+  background: rgba(14, 22, 33, 0.9);
+  border: 1px solid rgba(102, 192, 244, 0.4);
+  border-radius: 3px;
+  font-size: 11px;
+  text-align: center;
+  padding: 2px 6px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.steam-avatar-status-badge.online {
+  color: #57cbde;
+  border-color: #57cbde;
+}
+
+.steam-avatar-status-badge.ingame {
+  color: #90ba3c;
+  border-color: #90ba3c;
+}
+
+/* Dados do Usuário */
+.steam-profile-user-details {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-width: 460px;
+}
+
+.steam-persona-title {
+  font-size: 26px;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0;
+  line-height: 1.2;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+  letter-spacing: 0.5px;
+}
+
+.steam-persona-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 13px;
+  color: #8f98a0;
+}
+
+.steam-real-name {
+  color: #c7d5e0;
+  font-weight: 500;
+}
+
+.steam-country-loc {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.steam-profile-bio-text {
+  font-size: 13px;
+  line-height: 1.6;
+  color: #acb2b8;
+  white-space: pre-line;
+  margin-top: 4px;
+  background: rgba(0, 0, 0, 0.2);
+  padding: 10px 12px;
+  border-radius: 4px;
+  border-left: 3px solid #66c0f4;
+}
+
+/* Botões de Ação do Header */
+.steam-header-action-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.steam-btn-profile-edit {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: linear-gradient(180deg, #3d586c 0%, #263847 100%);
+  border: 1px solid #456d8d;
+  color: #ebebeb;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 7px 16px;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+
+.steam-btn-profile-edit:hover {
+  background: linear-gradient(180deg, #4d6f89 0%, #31485b 100%);
+  border-color: #66c0f4;
+  color: #ffffff;
+  box-shadow: 0 0 10px rgba(102, 192, 244, 0.3);
+}
+
+.steam-btn-profile-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(42, 71, 94, 0.4);
+  border: 1px solid rgba(84, 133, 166, 0.4);
+  color: #8f98a0;
+  font-size: 12px;
+  padding: 7px 14px;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.steam-btn-profile-secondary:hover {
+  color: #c7d5e0;
+  background: rgba(42, 71, 94, 0.7);
+  border-color: #66c0f4;
+}
+
+/* Coluna Direita do Header: Nível & Insígnia em Destaque */
+.steam-profile-right-summary {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 14px;
+  min-width: 250px;
+}
+
+/* Nível Steam */
+.steam-level-display-box {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(84, 133, 166, 0.3);
+  padding: 10px 16px;
+  border-radius: 4px;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.steam-level-title-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.steam-level-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  color: #8f98a0;
+  letter-spacing: 0.5px;
+}
+
+.steam-level-sub {
+  font-size: 14px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.steam-level-circle {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 2px solid #ffd700;
+  box-shadow: 0 0 10px rgba(255, 215, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 17px;
+  font-weight: 800;
+  color: #ffffff;
+  background: radial-gradient(circle, #3d2f0d 0%, #171a21 80%);
+}
+
+/* Insígnia em Destaque */
+.steam-featured-badge-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(84, 133, 166, 0.2);
+  border-radius: 4px;
+  padding: 10px 14px;
+  width: 100%;
+}
+
+.steam-featured-badge-icon {
+  font-size: 28px;
+  line-height: 1;
+  filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.4));
+}
+
+.steam-featured-badge-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.steam-featured-badge-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.steam-featured-badge-xp {
+  font-size: 11px;
+  color: #8f98a0;
+}
+
+/* Mini métricas do header */
+.steam-profile-quick-stats {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 3px;
+  padding: 6px 12px;
+  font-size: 11px;
+  color: #8f98a0;
+}
+
+.steam-quick-stat-item b {
+  color: #66c0f4;
+  margin-left: 3px;
+}
+
+/* --------------------------------------------------------------------------
+   PROFILE NAVIGATION TABS
+   -------------------------------------------------------------------------- */
+.steam-profile-subnav {
+  display: flex;
+  gap: 4px;
+  background: rgba(14, 22, 33, 0.6);
+  border: 1px solid rgba(84, 133, 166, 0.2);
+  border-radius: 4px;
+  padding: 4px;
+  margin-bottom: 20px;
+}
+
+.steam-profile-tab-btn {
+  background: transparent;
+  border: none;
+  color: #8f98a0;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 8px 18px;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.steam-profile-tab-btn:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.steam-profile-tab-btn.active {
+  color: #ffffff;
+  background: linear-gradient(180deg, #2a475e 0%, #1b2838 100%);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+.steam-tab-count-badge {
+  background: rgba(0, 0, 0, 0.35);
+  color: #66c0f4;
+  font-size: 11px;
+  padding: 1px 6px;
+  border-radius: 10px;
+}
+
+/* --------------------------------------------------------------------------
+   LAYOUT DE DUAS COLUNAS DO PERFIL
+   -------------------------------------------------------------------------- */
+.steam-profile-columns {
+  display: flex;
+  gap: 20px;
+}
+
+.steam-profile-main-col {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.steam-profile-side-col {
+  width: 310px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* --------------------------------------------------------------------------
+   VITRINES DE PERFIL (SHOWCASES)
+   -------------------------------------------------------------------------- */
+.steam-showcase-box {
+  background: rgba(14, 22, 33, 0.8);
+  border: 1px solid rgba(84, 133, 166, 0.25);
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+}
+
+.steam-showcase-header {
+  background: linear-gradient(90deg, rgba(42, 71, 94, 0.7) 0%, rgba(27, 40, 56, 0.6) 100%);
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(84, 133, 166, 0.2);
+}
+
+.steam-showcase-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  letter-spacing: 0.3px;
+}
+
+.steam-showcase-tag {
+  font-size: 11px;
+  color: #8f98a0;
+}
+
+/* Vitrine de Jogo Favorito */
+.steam-favorite-game-content {
+  padding: 18px;
+}
+
+.steam-fav-game-hero-banner {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.steam-fav-game-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.steam-fav-game-hero-banner:hover .steam-fav-game-img {
+  transform: scale(1.03);
+}
+
+.steam-fav-game-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 16px;
+  background: linear-gradient(180deg, transparent 0%, rgba(10, 15, 22, 0.9) 80%);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.steam-fav-game-info h3 {
+  margin: 0 0 4px 0;
+  font-size: 18px;
+  color: #ffffff;
+  font-weight: 700;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+.steam-fav-game-hours {
+  font-size: 12px;
+  color: #66c0f4;
+}
+
+.steam-fav-game-play-btn {
+  background: linear-gradient(90deg, #75a417 0%, #5c7e10 100%);
+  color: #ffffff;
+  border: none;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 8px 18px;
+  border-radius: 2px;
+  cursor: pointer;
+  box-shadow: 0 0 12px rgba(117, 164, 23, 0.4);
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.steam-fav-game-play-btn:hover {
+  background: linear-gradient(90deg, #8ed11b 0%, #6da111 100%);
+  box-shadow: 0 0 18px rgba(142, 209, 27, 0.7);
+  transform: translateY(-1px);
+}
+
+/* Estatísticas da Vitrine de Jogo */
+.steam-fav-game-stats-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.steam-fav-stat-card {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.steam-fav-stat-num {
+  font-size: 20px;
+  font-weight: 800;
+  color: #66c0f4;
+}
+
+.steam-fav-stat-label {
+  font-size: 11px;
+  color: #8f98a0;
+  text-transform: uppercase;
+}
+
+.steam-perfect-badge {
+  color: #ffd700 !important;
+}
+
+/* Vitrine de Conquistas Raras */
+.steam-rarest-achievements-grid {
+  padding: 16px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 14px;
+}
+
+.steam-rare-achieve-card {
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  border-radius: 4px;
+  padding: 12px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 8px;
+  transition: all 0.25s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.steam-rare-achieve-card:hover {
+  transform: translateY(-3px);
+  border-color: #ffd700;
+  box-shadow: 0 6px 16px rgba(255, 215, 0, 0.25);
+}
+
+.steam-rare-achieve-icon {
+  font-size: 32px;
+  line-height: 1;
+  filter: drop-shadow(0 0 6px rgba(255, 215, 0, 0.5));
+}
+
+.steam-rare-achieve-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.2;
+}
+
+.steam-rare-achieve-game {
+  font-size: 11px;
+  color: #8f98a0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+.steam-rare-achieve-pct {
+  font-size: 10px;
+  font-weight: 700;
+  color: #ffd700;
+  background: rgba(255, 215, 0, 0.12);
+  padding: 2px 6px;
+  border-radius: 10px;
+}
+
+/* Vitrine de Insígnias */
+.steam-badges-showcase-grid {
+  padding: 16px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: 12px;
+}
+
+.steam-badge-tile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(84, 133, 166, 0.2);
+  border-radius: 4px;
+  padding: 10px;
+  transition: all 0.2s ease;
+}
+
+.steam-badge-tile:hover {
+  background: rgba(42, 71, 94, 0.3);
+  border-color: #66c0f4;
+  transform: translateY(-2px);
+}
+
+.steam-badge-tile-icon {
+  font-size: 26px;
+  line-height: 1;
+}
+
+.steam-badge-tile-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.steam-badge-tile-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: #ffffff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.steam-badge-tile-xp {
+  font-size: 11px;
+  color: #8f98a0;
+}
+
+/* --------------------------------------------------------------------------
+   ATIVIDADE RECENTE (Recent Activity)
+   -------------------------------------------------------------------------- */
+.steam-recent-activity-section {
+  background: rgba(14, 22, 33, 0.8);
+  border: 1px solid rgba(84, 133, 166, 0.25);
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+}
+
+.steam-recent-header {
+  background: linear-gradient(90deg, rgba(42, 71, 94, 0.7) 0%, rgba(27, 40, 56, 0.6) 100%);
+  padding: 12px 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(84, 133, 166, 0.2);
+}
+
+.steam-recent-header h2 {
+  font-size: 15px;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0;
+}
+
+.steam-recent-hours-badge {
+  font-size: 12px;
+  color: #66c0f4;
+  font-weight: 600;
+}
+
+.steam-recent-games-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.steam-recent-game-item {
+  display: flex;
+  gap: 16px;
+  padding: 16px 18px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  transition: background 0.2s ease;
+  align-items: center;
+}
+
+.steam-recent-game-item:last-child {
+  border-bottom: none;
+}
+
+.steam-recent-game-item:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.steam-recent-thumb-link {
+  width: 140px;
+  height: 65px;
+  flex-shrink: 0;
+  border-radius: 3px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: block;
+}
+
+.steam-recent-thumb-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.steam-recent-game-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.steam-recent-game-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0;
+  cursor: pointer;
+}
+
+.steam-recent-game-title:hover {
+  color: #66c0f4;
+}
+
+.steam-recent-game-time {
+  font-size: 12px;
+  color: #8f98a0;
+}
+
+.steam-recent-game-achieve-bar-wrap {
+  margin-top: 4px;
+  width: 100%;
+  max-width: 240px;
+}
+
+.steam-achieve-bar-bg {
+  height: 6px;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 3px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.steam-achieve-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #2a475e 0%, #57cbde 100%);
+  border-radius: 3px;
+}
+
+.steam-achieve-bar-label {
+  font-size: 11px;
+  color: #8f98a0;
+  margin-top: 3px;
+}
+
+.steam-recent-game-action {
+  flex-shrink: 0;
+}
+
+.steam-recent-play-link {
+  background: rgba(42, 71, 94, 0.5);
+  border: 1px solid rgba(84, 133, 166, 0.4);
+  color: #c7d5e0;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.steam-recent-play-link:hover {
+  background: #5c7e10;
+  border-color: #75a417;
+  color: #ffffff;
+}
+
+/* --------------------------------------------------------------------------
+   MURAL DE COMENTÁRIOS DO PERFIL (Comments Wall)
+   -------------------------------------------------------------------------- */
+.steam-comments-wall-box {
+  background: rgba(14, 22, 33, 0.8);
+  border: 1px solid rgba(84, 133, 166, 0.25);
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+}
+
+.steam-comments-wall-header {
+  background: linear-gradient(90deg, rgba(42, 71, 94, 0.7) 0%, rgba(27, 40, 56, 0.6) 100%);
+  padding: 12px 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(84, 133, 166, 0.2);
+}
+
+.steam-comments-wall-header h2 {
+  font-size: 15px;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0;
+}
+
+.steam-comments-wall-body {
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* Formulário de Envio */
+.steam-comment-input-area {
+  display: flex;
+  gap: 14px;
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(84, 133, 166, 0.2);
+  border-radius: 4px;
+  padding: 14px;
+}
+
+.steam-comment-author-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 3px;
+  object-fit: cover;
+  flex-shrink: 0;
+  border: 1px solid #57cbde;
+}
+
+.steam-comment-form {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.steam-comment-textarea {
+  width: 100%;
+  background: rgba(10, 15, 22, 0.8);
+  border: 1px solid rgba(84, 133, 166, 0.3);
+  border-radius: 3px;
+  padding: 10px 12px;
+  color: #ffffff;
+  font-size: 13px;
+  font-family: inherit;
+  resize: vertical;
+  min-height: 60px;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.steam-comment-textarea:focus {
+  border-color: #66c0f4;
+  box-shadow: 0 0 8px rgba(102, 192, 244, 0.3);
+}
+
+.steam-comment-textarea::placeholder {
+  color: #576572;
+}
+
+.steam-comment-form-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.steam-btn-post-comment {
+  background: linear-gradient(180deg, #3d586c 0%, #263847 100%);
+  border: 1px solid #456d8d;
+  color: #ebebeb;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 7px 18px;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.steam-btn-post-comment:hover:not(:disabled) {
+  background: linear-gradient(180deg, #4d6f89 0%, #31485b 100%);
+  border-color: #66c0f4;
+  color: #ffffff;
+}
+
+.steam-btn-post-comment:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Lista de Comentários */
+.steam-comments-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.steam-comment-row {
+  display: flex;
+  gap: 14px;
+  padding: 12px 14px;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: 4px;
+  transition: background 0.2s ease;
+}
+
+.steam-comment-row:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.steam-comment-user-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 3px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.steam-comment-content {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.steam-comment-author-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.steam-comment-author-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: #ebebeb;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.steam-comment-badge-tag {
+  font-size: 10px;
+  color: #66c0f4;
+  background: rgba(102, 192, 244, 0.12);
+  padding: 1px 6px;
+  border-radius: 8px;
+  font-weight: normal;
+}
+
+.steam-comment-date {
+  font-size: 11px;
+  color: #576572;
+}
+
+.steam-comment-body-text {
+  font-size: 13px;
+  line-height: 1.5;
+  color: #acb2b8;
+}
+
+/* --------------------------------------------------------------------------
+   BARRA LATERAL DIREITA DO PERFIL (Profile Sidebar)
+   -------------------------------------------------------------------------- */
+.steam-side-widget {
+  background: rgba(14, 22, 33, 0.8);
+  border: 1px solid rgba(84, 133, 166, 0.25);
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+}
+
+.steam-side-widget-header {
+  background: rgba(0, 0, 0, 0.3);
+  padding: 10px 14px;
+  border-bottom: 1px solid rgba(84, 133, 166, 0.15);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.steam-side-widget-header h3 {
+  font-size: 13px;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0;
+}
+
+.steam-side-widget-count {
+  font-size: 12px;
+  color: #66c0f4;
+  font-weight: 600;
+}
+
+.steam-side-widget-body {
+  padding: 14px;
+}
+
+/* Status do Usuário */
+.steam-user-status-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.steam-status-tag {
+  font-size: 15px;
+  font-weight: 700;
+  color: #57cbde;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.steam-status-tag.ingame {
+  color: #90ba3c;
+}
+
+.steam-status-game-name {
+  font-size: 13px;
+  color: #c7d5e0;
+  font-weight: 600;
+}
+
+.steam-status-subdetail {
+  font-size: 11px;
+  color: #8f98a0;
+}
+
+/* Lista de Amigos */
+.steam-friends-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.steam-friend-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 4px 0;
+}
+
+.steam-friend-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 2px;
+  object-fit: cover;
+  flex-shrink: 0;
+  border: 1px solid #57cbde;
+}
+
+.steam-friend-avatar.ingame {
+  border-color: #90ba3c;
+}
+
+.steam-friend-info {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.steam-friend-name {
+  font-size: 12px;
+  font-weight: 600;
+  color: #ffffff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.steam-friend-status {
+  font-size: 11px;
+  color: #8f98a0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.steam-friend-status.ingame {
+  color: #90ba3c;
+}
+
+/* Links Sociais e Profissionais */
+.steam-links-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.steam-social-link-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(84, 133, 166, 0.2);
+  border-radius: 3px;
+  padding: 8px 12px;
+  color: #c7d5e0;
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.steam-social-link-btn:hover {
+  background: rgba(42, 71, 94, 0.4);
+  border-color: #66c0f4;
+  color: #ffffff;
+  transform: translateX(2px);
+}
+
+.steam-social-link-btn-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* --------------------------------------------------------------------------
+   MODAL EDITAR PERFIL (Steam Edit Profile Modal)
+   -------------------------------------------------------------------------- */
+.steam-edit-profile-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(6px);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.steam-edit-profile-dialog {
+  background: #1b2838;
+  border: 1px solid #386280;
+  border-radius: 4px;
+  width: 100%;
+  max-width: 620px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.8);
+  display: flex;
+  flex-direction: column;
+}
+
+.steam-edit-modal-header {
+  background: linear-gradient(90deg, #171a21 0%, #203347 100%);
+  padding: 16px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #386280;
+}
+
+.steam-edit-modal-header h2 {
+  font-size: 17px;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0;
+  letter-spacing: 0.5px;
+}
+
+.steam-modal-close-btn {
+  background: transparent;
+  border: none;
+  color: #8f98a0;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s;
+}
+
+.steam-modal-close-btn:hover {
+  color: #ffffff;
+}
+
+.steam-edit-modal-body {
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.steam-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.steam-form-label {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #c7d5e0;
+}
+
+.steam-form-input {
+  background: #171a21;
+  border: 1px solid #386280;
+  border-radius: 3px;
+  padding: 9px 12px;
+  color: #ffffff;
+  font-size: 13px;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.steam-form-input:focus {
+  border-color: #66c0f4;
+  box-shadow: 0 0 6px rgba(102, 192, 244, 0.3);
+}
+
+.steam-form-textarea {
+  background: #171a21;
+  border: 1px solid #386280;
+  border-radius: 3px;
+  padding: 9px 12px;
+  color: #ffffff;
+  font-size: 13px;
+  outline: none;
+  min-height: 90px;
+  resize: vertical;
+  font-family: inherit;
+  transition: border-color 0.2s ease;
+}
+
+.steam-form-textarea:focus {
+  border-color: #66c0f4;
+  box-shadow: 0 0 6px rgba(102, 192, 244, 0.3);
+}
+
+.steam-avatar-presets-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-top: 6px;
+}
+
+.steam-avatar-preset-btn {
+  background: transparent;
+  border: 2px solid transparent;
+  border-radius: 4px;
+  padding: 2px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.steam-avatar-preset-btn img {
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 3px;
+  object-fit: cover;
+  display: block;
+}
+
+.steam-avatar-preset-btn.active {
+  border-color: #66c0f4;
+  box-shadow: 0 0 10px rgba(102, 192, 244, 0.6);
+}
+
+.steam-edit-modal-footer {
+  background: #171a21;
+  padding: 14px 24px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  border-top: 1px solid #2a475e;
+}
+
+.steam-btn-cancel {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #c7d5e0;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 8px 18px;
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+.steam-btn-cancel:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+}
+
+.steam-btn-save-profile {
+  background: linear-gradient(90deg, #75a417 0%, #5c7e10 100%);
+  border: none;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 8px 22px;
+  border-radius: 2px;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(117, 164, 23, 0.35);
+  transition: all 0.2s ease;
+}
+
+.steam-btn-save-profile:hover {
+  background: linear-gradient(90deg, #8ed11b 0%, #6da111 100%);
+  box-shadow: 0 0 16px rgba(142, 209, 27, 0.6);
+}
+
+/* --------------------------------------------------------------------------
+   RESPONSIVIDADE
+   -------------------------------------------------------------------------- */
+@media (max-width: 900px) {
+  .steam-profile-header-card {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .steam-profile-left-hero {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .steam-profile-user-details {
+    align-items: center;
+  }
+
+  .steam-persona-meta {
+    justify-content: center;
+  }
+
+  .steam-header-action-buttons {
+    justify-content: center;
+  }
+
+  .steam-profile-right-summary {
+    align-items: center;
+    width: 100%;
+  }
+
+  .steam-profile-columns {
+    flex-direction: column;
+  }
+
+  .steam-profile-side-col {
+    width: 100%;
+  }
+}

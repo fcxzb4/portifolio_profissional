@@ -3,7 +3,7 @@ import { Monitor, Apple, Terminal } from 'lucide-react';
 import { tabbedGames } from '../../core/mock/steamData';
 import '../../styles/sections.css';
 
-export default function BrowseTabs() {
+export default function BrowseTabs({ onGameClick }) {
   const [activeTab, setActiveTab] = useState('popular');
 
   const tabs = [
@@ -34,7 +34,18 @@ export default function BrowseTabs() {
         {/* Tab Rows List */}
         <div className="steam-tabs-list">
           {currentList.map((game) => (
-            <div key={game.id} className="steam-tab-row">
+            <div
+              key={game.id}
+              className="steam-tab-row"
+              style={{ cursor: 'pointer' }}
+              onClick={() => onGameClick && onGameClick({
+                ...game,
+                mainImage: game.thumb || game.image,
+                heroBanner: game.thumb || game.image
+              })}
+              title={`Ver página de ${game.title}`}
+            >
+
               <div className="steam-tab-left">
                 <div className="steam-tab-thumb">
                   <img src={game.thumb} alt={game.title} />

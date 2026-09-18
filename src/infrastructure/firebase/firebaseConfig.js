@@ -1,21 +1,22 @@
-// Firebase Configuration — Substituir pelos dados reais do seu projeto Firebase
-import { initializeApp } from 'firebase/app';
+// Firebase Configuration — Conectado ao .env via Vite (import.meta.env)
+import { initializeApp, getApps, getApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
 
 const firebaseConfig = {
-  apiKey: "SUA_API_KEY_AQUI",
-  authDomain: "SEU_PROJETO.firebaseapp.com",
-  projectId: "SEU_PROJETO",
-  storageBucket: "SEU_PROJETO.appspot.com",
-  messagingSenderId: "000000000000",
-  appId: "1:000000000000:web:0000000000000000000000"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
 };
 
-// Inicializa Firebase
-const app = initializeApp(firebaseConfig);
+// Evita erro de inicialização duplicada no Hot Module Replacement (HMR) do Vite
+const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
 
-// Exporta instâncias do Firestore e Auth
+// Instâncias do Firestore e Auth
 export const db = getFirestore(app);
 export const auth = getAuth(app);
 export default app;
+

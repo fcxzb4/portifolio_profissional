@@ -5,7 +5,8 @@ export default function LibrarySidebar({
   games, 
   selectedGame, 
   onSelectGame, 
-  onGoToStore 
+  onGoToStore,
+  isLoading = false
 }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [activeTab, setActiveTab] = useState('inicio');
@@ -47,10 +48,17 @@ export default function LibrarySidebar({
 
       {/* Game List */}
       <div className="library-games-list">
-        {filteredGames.length > 0 ? (
+        {isLoading && games.length === 0 ? (
+          <div className="library-empty">
+            <div className="library-empty-title">Sincronizando com Firebase...</div>
+          </div>
+        ) : filteredGames.length > 0 ? (
           <>
-            {/* Section: Recentes */}
-            <div className="library-section-label">Recentes</div>
+            {/* Section: Instalados */}
+            <div className="library-section-label">
+              INSTALADOS ({filteredGames.length})
+            </div>
+
             {filteredGames.map((game, index) => {
               const gameId = game.gameId || game.id;
               const selectedId = selectedGame ? (selectedGame.gameId || selectedGame.id) : null;

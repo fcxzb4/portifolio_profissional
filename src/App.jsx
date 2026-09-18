@@ -10,6 +10,8 @@ import BrowseTabs from './components/home/BrowseTabs';
 import SteamFooter from './components/layout/SteamFooter';
 import LibraryView from './components/library/LibraryView';
 import GameStorePage from './components/home/GameStorePage';
+import ProfileView from './components/profile/ProfileView';
+import AuthModal from './components/auth/AuthModal';
 import './styles/global.css';
 
 function AppContent() {
@@ -19,12 +21,25 @@ function AppContent() {
     console.log("Buscando no Steam:", query);
   };
 
+  // Se está no perfil oficial da Steam
+  if (activeView === 'perfil') {
+    return (
+      <div className="steam-app">
+        <SteamHeader />
+        <ProfileView />
+        <SteamFooter />
+        <AuthModal />
+      </div>
+    );
+  }
+
   // Se está na biblioteca
   if (activeView === 'biblioteca') {
     return (
       <div className="steam-app">
         <SteamHeader />
         <LibraryView />
+        <AuthModal />
       </div>
     );
   }
@@ -37,6 +52,7 @@ function AppContent() {
         <StoreNavbar onSearch={handleSearch} />
         <GameStorePage game={storeSubView.game} />
         <SteamFooter />
+        <AuthModal />
       </div>
     );
   }
@@ -59,18 +75,21 @@ function AppContent() {
           <FeaturedCarousel onGameClick={openGamePage} />
 
           {/* Special Offers Grid */}
-          <SpecialOffers />
+          <SpecialOffers onGameClick={openGamePage} />
 
           {/* Browse Categories */}
           <CategoryCards />
 
           {/* Tabbed Browser (Novidades, Mais Vendidos, etc.) */}
-          <BrowseTabs />
+          <BrowseTabs onGameClick={openGamePage} />
         </div>
       </main>
 
       {/* Steam Global Footer */}
       <SteamFooter />
+
+      {/* Steam Login & Register Modal */}
+      <AuthModal />
     </div>
   );
 }
@@ -82,3 +101,4 @@ export default function App() {
     </NavigationProvider>
   );
 }
+
