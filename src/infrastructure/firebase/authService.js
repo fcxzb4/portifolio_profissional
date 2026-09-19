@@ -1,4 +1,3 @@
-// Firebase Authentication Service
 import {
   signInAnonymously as firebaseSignInAnonymously,
   signInWithEmailAndPassword,
@@ -7,7 +6,8 @@ import {
   signOut as firebaseSignOut,
   onAuthStateChanged
 } from 'firebase/auth';
-import { auth } from './firebaseConfig';
+import { doc, setDoc } from 'firebase/firestore';
+import { auth, db } from './firebaseConfig';
 
 const FALLBACK_USER_KEY = 'steam_portfolio_guest_uid';
 
@@ -72,12 +72,34 @@ export async function loginWithEmail(email, password) {
 export async function registerWithEmail(email, password, displayName) {
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    const chosenName = displayName ? displayName.trim() : email.split('@')[0];
     
-    // Atualiza o perfil com o nome de exibição (nickname Steam)
+    // Atualiza o perfil no Firebase Auth com o nome de exibição (nickname Steam)
     if (displayName) {
       await updateProfile(userCredential.user, {
-        displayName: displayName.trim()
+        displayName: chosenName
       });
+    }
+
+    // Inicializa o documento do usuário no Firestore com a estrutura exata do Firebase
+    try {
+      const initialUserDoc = {
+        library: [],
+        profile: {
+          achivimants: '',
+          batches: '',
+          bio: '',
+          bioPhoto: 'https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg',
+          favoriteGame: '',
+          name: chosenName
+        }
+      };
+
+      // Tenta gravar tanto em 'users' quanto em 'user' para garantir compatibilidade
+      await setDoc(doc(db, 'users', userCredential.user.uid), initialUserDoc, { merge: true });
+      await setDoc(doc(db, 'user', userCredential.user.uid), initialUserDoc, { merge: true });
+    } catch (errDb) {
+      console.warn('[AuthService] Firestore offline ou regras restritivas no cadastro:', errDb.message);
     }
 
     console.log('[AuthService] Conta criada com sucesso:', userCredential.user.email);

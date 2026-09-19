@@ -8,7 +8,9 @@ import {
   getDoc,
   query,
   orderBy,
-  serverTimestamp
+  serverTimestamp,
+  arrayUnion,
+  arrayRemove
 } from 'firebase/firestore';
 import { db } from './firebaseConfig';
 
@@ -68,13 +70,25 @@ export async function addGameToLibrary(userId, gameData) {
   }
   saveLocalLibrary(userId, currentLocal);
 
-  // 2. Persistir no Firestore
+  // 2. Persistir no Firestore (na subcoleção e no campo array library do documento do usuário)
   try {
     const gameRef = doc(db, 'users', userId, 'library', gameId);
     await setDoc(gameRef, {
       ...itemToSave,
       addedAt: serverTimestamp()
     }, { merge: true });
+
+    // Atualiza também o campo array 'library' no documento do usuário
+    try {
+      await setDoc(doc(db, 'users', userId), {
+        library: arrayUnion(itemToSave)
+      }, { merge: true });
+    } catch {
+      await setDoc(doc(db, 'user', userId), {
+        library: arrayUnion(itemToSave)
+      }, { merge: true });
+    }
+
     console.log(`[LibraryService] Jogo "${itemToSave.title}" salvo com sucesso no Firestore!`);
     return true;
   } catch (error) {
@@ -96,6 +110,7 @@ export async function removeGameFromLibrary(userId, gameId) {
 
   // 1. Remove do cache local
   const currentLocal = getLocalLibrary(userId);
+  const toRemoveItem = currentLocal.find(g => g.id === strId || g.gameId === strId);
   const filtered = currentLocal.filter(g => g.id !== strId && g.gameId !== strId);
   saveLocalLibrary(userId, filtered);
 
@@ -103,6 +118,20 @@ export async function removeGameFromLibrary(userId, gameId) {
   try {
     const gameRef = doc(db, 'users', userId, 'library', strId);
     await deleteDoc(gameRef);
+
+    // Remove do array library do documento se houver
+    if (toRemoveItem) {
+      try {
+        await setDoc(doc(db, 'users', userId), {
+          library: arrayRemove(toRemoveItem)
+        }, { merge: true });
+      } catch {
+        await setDoc(doc(db, 'user', userId), {
+          library: arrayRemove(toRemoveItem)
+        }, { merge: true });
+      }
+    }
+
     console.log(`[LibraryService] Jogo ${strId} removido do Firestore.`);
     return true;
   } catch (error) {

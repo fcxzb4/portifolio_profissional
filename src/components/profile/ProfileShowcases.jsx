@@ -1,55 +1,38 @@
 import React from 'react';
-import { Trophy, Star, Award, Play, Flame, CheckCircle } from 'lucide-react';
+import { Trophy, Star, Award, Play, Gamepad2 } from 'lucide-react';
 import { useNavigation } from '../../context/NavigationContext';
-import { featuredGames } from '../../core/mock/steamData';
 
 export default function ProfileShowcases() {
-  const { libraryGames, goToLibrary } = useNavigation();
+  const { libraryGames, goToLibrary, goToStore, userProfile } = useNavigation();
 
-  // Seleciona o jogo favorito (da biblioteca ou mock)
-  const favoriteGame = (libraryGames && libraryGames.length > 0)
-    ? libraryGames[0]
-    : featuredGames[0];
+  // Jogo favorito (determinado pelo campo favoriteGame ou o primeiro da biblioteca)
+  const favoriteGameFromProfile = userProfile?.favoriteGame
+    ? (libraryGames?.find(g => g.title?.toLowerCase() === userProfile.favoriteGame.toLowerCase() || g.id === userProfile.favoriteGame) || {
+        id: 'fav_custom',
+        title: userProfile.favoriteGame,
+        hoursPlayed: 0,
+        mainImage: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=800&q=80',
+        heroBanner: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=800&q=80'
+      })
+    : null;
 
-  const rareAchievements = [
-    {
-      id: 'ra1',
-      icon: '🏆',
-      title: 'Night City Legend',
-      game: 'Cyberpunk 2077',
-      rarity: '0.5%'
-    },
-    {
-      id: 'ra2',
-      icon: '🐒',
-      title: 'Rei Macaco Divino',
-      game: 'Black Myth: Wukong',
-      rarity: '0.8%'
-    },
-    {
-      id: 'ra3',
-      icon: '🎲',
-      title: 'Rolagem Crítica 20',
-      game: "Baldur's Gate 3",
-      rarity: '1.2%'
-    },
-    {
-      id: 'ra4',
-      icon: '⚡',
-      title: '100% Clean Architecture',
-      game: 'Steam Portfolio',
-      rarity: '0.3%'
-    }
-  ];
+  const favoriteGame = favoriteGameFromProfile || ((libraryGames && libraryGames.length > 0) ? libraryGames[0] : null);
 
-  const badges = [
-    { id: 'b1', icon: '⚛️', title: 'Arquiteto React', xp: '500 XP' },
-    { id: 'b2', icon: '🔷', title: 'TypeScript Master', xp: '500 XP' },
-    { id: 'b3', icon: '🔥', title: 'Firebase Wizard', xp: '400 XP' },
-    { id: 'b4', icon: '🎨', title: 'Pixel Perfect UI', xp: '350 XP' },
-    { id: 'b5', icon: '🛡️', title: 'Guardião do Git', xp: '250 XP' },
-    { id: 'b6', icon: '⭐', title: '6 Anos de Serviço', xp: '300 XP' }
-  ];
+  // Conquistas reais desbloqueadas pelo usuário nos seus jogos
+  const userUnlockedAchievements = libraryGames?.flatMap(g => 
+    (g.achievements || [])
+      .filter(a => a.unlocked)
+      .map(a => ({
+        id: a.id || `${g.id}_${a.title}`,
+        icon: a.icon || '🏆',
+        title: a.title,
+        game: g.title,
+        description: a.description
+      }))
+  ) || [];
+
+  const totalAchievementsCount = userProfile?.achivimants || userUnlockedAchievements.length;
+  const totalBatchesCount = userProfile?.batches || 0;
 
   return (
     <>
@@ -63,55 +46,71 @@ export default function ProfileShowcases() {
           <span className="steam-showcase-tag">Vitrine Principal</span>
         </div>
 
-        <div className="steam-favorite-game-content">
-          <div className="steam-fav-game-hero-banner">
-            <img
-              src={favoriteGame.heroBanner || favoriteGame.mainImage}
-              alt={favoriteGame.title}
-              className="steam-fav-game-img"
-            />
-            <div className="steam-fav-game-overlay">
-              <div className="steam-fav-game-info">
-                <h3>{favoriteGame.title}</h3>
-                <span className="steam-fav-game-hours">
-                  {favoriteGame.hoursPlayed || 156} horas registradas no Steam
+        {favoriteGame ? (
+          <div className="steam-favorite-game-content">
+            <div className="steam-fav-game-hero-banner">
+              <img
+                src={favoriteGame.heroBanner || favoriteGame.mainImage}
+                alt={favoriteGame.title}
+                className="steam-fav-game-img"
+              />
+              <div className="steam-fav-game-overlay">
+                <div className="steam-fav-game-info">
+                  <h3>{favoriteGame.title}</h3>
+                  <span className="steam-fav-game-hours">
+                    {favoriteGame.hoursPlayed || 0} horas registradas no Steam
+                  </span>
+                </div>
+
+                <button
+                  className="steam-fav-game-play-btn"
+                  onClick={() => goToLibrary(favoriteGame)}
+                  title="Abrir jogo na biblioteca"
+                >
+                  <Play size={14} fill="#ffffff" />
+                  <span>Jogar Agora</span>
+                </button>
+              </div>
+            </div>
+
+            <div className="steam-fav-game-stats-row">
+              <div className="steam-fav-stat-card">
+                <span className="steam-fav-stat-num">
+                  {favoriteGame.hoursPlayed || 0}h
                 </span>
+                <span className="steam-fav-stat-label">Tempo Registrado</span>
               </div>
 
-              <button
-                className="steam-fav-game-play-btn"
-                onClick={() => goToLibrary(favoriteGame)}
-                title="Abrir jogo na biblioteca"
-              >
-                <Play size={14} fill="#ffffff" />
-                <span>Jogar Agora</span>
-              </button>
+              <div className="steam-fav-stat-card">
+                <span className="steam-fav-stat-num steam-perfect-badge">
+                  {favoriteGame.achievements ? favoriteGame.achievements.filter(a => a.unlocked).length : 0} Conquistas
+                </span>
+                <span className="steam-fav-stat-label">Progresso</span>
+              </div>
+
+              <div className="steam-fav-stat-card">
+                <span className="steam-fav-stat-num" style={{ color: '#57cbde' }}>
+                  {favoriteGame.lastPlayed || 'Recentemente'}
+                </span>
+                <span className="steam-fav-stat-label">Última Sessão</span>
+              </div>
             </div>
           </div>
-
-          <div className="steam-fav-game-stats-row">
-            <div className="steam-fav-stat-card">
-              <span className="steam-fav-stat-num">
-                {favoriteGame.hoursPlayed || 156}h
-              </span>
-              <span className="steam-fav-stat-label">Tempo Registrado</span>
-            </div>
-
-            <div className="steam-fav-stat-card">
-              <span className="steam-fav-stat-num steam-perfect-badge">
-                6 / 6 (100%)
-              </span>
-              <span className="steam-fav-stat-label">Jogo Perfeito 🏆</span>
-            </div>
-
-            <div className="steam-fav-stat-card">
-              <span className="steam-fav-stat-num" style={{ color: '#57cbde' }}>
-                {favoriteGame.lastPlayed || 'Hoje'}
-              </span>
-              <span className="steam-fav-stat-label">Última Sessão</span>
-            </div>
+        ) : (
+          <div style={{ padding: '28px 20px', textAlign: 'center' }}>
+            <p style={{ color: '#8f98a0', fontSize: '13px', margin: '0 0 14px 0' }}>
+              Nenhum jogo na sua biblioteca para exibir em destaque.
+            </p>
+            <button
+              className="steam-btn-profile-secondary"
+              onClick={goToStore}
+              style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', fontSize: '12px', padding: '6px 16px' }}
+            >
+              <Gamepad2 size={15} />
+              <span>Explorar Loja e Adicionar Jogos</span>
+            </button>
           </div>
-        </div>
+        )}
       </div>
 
       {/* Vitrine 2: Expositor de Conquistas Raras */}
@@ -119,21 +118,33 @@ export default function ProfileShowcases() {
         <div className="steam-showcase-header">
           <span className="steam-showcase-title">
             <Trophy size={16} color="#ffd700" />
-            Expositor de Conquistas Raras
+            Expositor de Conquistas
           </span>
-          <span className="steam-showcase-tag">4 em Exibição</span>
+          <span className="steam-showcase-tag">
+            {totalAchievementsCount} Desbloqueadas
+          </span>
         </div>
 
-        <div className="steam-rarest-achievements-grid">
-          {rareAchievements.map(achieve => (
-            <div key={achieve.id} className="steam-rare-achieve-card" title={`${achieve.title} - ${achieve.game}`}>
-              <div className="steam-rare-achieve-icon">{achieve.icon}</div>
-              <span className="steam-rare-achieve-title">{achieve.title}</span>
-              <span className="steam-rare-achieve-game">{achieve.game}</span>
-              <span className="steam-rare-achieve-pct">{achieve.rarity} desbloquearam</span>
-            </div>
-          ))}
-        </div>
+        {userUnlockedAchievements.length > 0 ? (
+          <div className="steam-rarest-achievements-grid">
+            {userUnlockedAchievements.slice(0, 4).map(achieve => (
+              <div key={achieve.id} className="steam-rare-achieve-card" title={`${achieve.title} - ${achieve.game}`}>
+                <div className="steam-rare-achieve-icon">{achieve.icon}</div>
+                <span className="steam-rare-achieve-title">{achieve.title}</span>
+                <span className="steam-rare-achieve-game">{achieve.game}</span>
+                <span className="steam-rare-achieve-pct">{achieve.description || 'Conquistada'}</span>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div style={{ padding: '24px 20px', textAlign: 'center' }}>
+            <p style={{ color: '#8f98a0', fontSize: '13px', margin: 0 }}>
+              {totalAchievementsCount > 0
+                ? `${totalAchievementsCount} conquistas registradas no perfil.`
+                : 'Nenhuma conquista desbloqueada no momento. Jogue seus projetos na Biblioteca para conquistar marcos e exibi-los aqui.'}
+            </p>
+          </div>
+        )}
       </div>
 
       {/* Vitrine 3: Colecionador de Insígnias */}
@@ -143,19 +154,15 @@ export default function ProfileShowcases() {
             <Award size={16} color="#66c0f4" />
             Colecionador de Insígnias
           </span>
-          <span className="steam-showcase-tag">28 Insígnias Totais</span>
+          <span className="steam-showcase-tag">{totalBatchesCount} Insígnias Totais</span>
         </div>
 
-        <div className="steam-badges-showcase-grid">
-          {badges.map(badge => (
-            <div key={badge.id} className="steam-badge-tile" title={badge.title}>
-              <div className="steam-badge-tile-icon">{badge.icon}</div>
-              <div className="steam-badge-tile-info">
-                <span className="steam-badge-tile-title">{badge.title}</span>
-                <span className="steam-badge-tile-xp">{badge.xp}</span>
-              </div>
-            </div>
-          ))}
+        <div style={{ padding: '24px 20px', textAlign: 'center' }}>
+          <p style={{ color: '#8f98a0', fontSize: '13px', margin: 0 }}>
+            {totalBatchesCount > 0
+              ? `${totalBatchesCount} insígnias conquistadas na conta.`
+              : 'Nenhuma insígnia conquistada ainda. Conforme você utiliza a plataforma e conclui marcos, novas insígnias serão exibidas aqui.'}
+          </p>
         </div>
       </div>
     </>

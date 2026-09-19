@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { X, Save, User, MapPin, Globe, FileText, Image as ImageIcon } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { X, Save, User, MapPin, Globe, FileText, Image as ImageIcon, Link as LinkIcon } from 'lucide-react';
 import { useNavigation } from '../../context/NavigationContext';
 
 const AVATAR_PRESETS = [
@@ -10,19 +10,53 @@ const AVATAR_PRESETS = [
 ];
 
 export default function EditProfileModal({ isOpen, onClose }) {
-  const { userProfile, updateUserProfile } = useNavigation();
+  const { userProfile, updateUserProfile, currentUser } = useNavigation();
 
   const [formData, setFormData] = useState({
-    personaName: userProfile?.personaName || '',
-    realName: userProfile?.realName || '',
-    city: userProfile?.city || '',
-    country: userProfile?.country || 'Brasil',
-    customUrl: userProfile?.customUrl || '',
-    avatarUrl: userProfile?.avatarUrl || AVATAR_PRESETS[0],
-    bio: userProfile?.bio || ''
+    name: '',
+    personaName: '',
+    bio: '',
+    bioPhoto: AVATAR_PRESETS[0],
+    avatarUrl: AVATAR_PRESETS[0],
+    favoriteGame: '',
+    achivimants: '',
+    batches: '',
+    realName: '',
+    city: '',
+    country: '',
+    customUrl: '',
+    github: '',
+    linkedin: '',
+    email: ''
   });
 
   const [isSaving, setIsSaving] = useState(false);
+
+  // Sincroniza dados com o perfil atual ao abrir
+  useEffect(() => {
+    if (isOpen) {
+      const currentName = userProfile?.name || userProfile?.personaName || currentUser?.displayName || (currentUser?.email ? currentUser.email.split('@')[0] : '');
+      const currentAvatar = userProfile?.bioPhoto || userProfile?.avatarUrl || AVATAR_PRESETS[0];
+
+      setFormData({
+        name: currentName,
+        personaName: currentName,
+        bio: userProfile?.bio || '',
+        bioPhoto: currentAvatar,
+        avatarUrl: currentAvatar,
+        favoriteGame: userProfile?.favoriteGame || '',
+        achivimants: userProfile?.achivimants || '',
+        batches: userProfile?.batches || '',
+        realName: userProfile?.realName || '',
+        city: userProfile?.city || '',
+        country: userProfile?.country || '',
+        customUrl: userProfile?.customUrl || '',
+        github: userProfile?.socialLinks?.github || '',
+        linkedin: userProfile?.socialLinks?.linkedin || '',
+        email: userProfile?.socialLinks?.email || currentUser?.email || ''
+      });
+    }
+  }, [isOpen, userProfile, currentUser]);
 
   if (!isOpen) return null;
 
@@ -35,7 +69,28 @@ export default function EditProfileModal({ isOpen, onClose }) {
     e.preventDefault();
     setIsSaving(true);
     try {
-      await updateUserProfile(formData);
+      const updates = {
+        name: formData.name.trim(),
+        personaName: formData.name.trim(),
+        bio: formData.bio.trim(),
+        bioPhoto: formData.avatarUrl,
+        avatarUrl: formData.avatarUrl,
+        favoriteGame: formData.favoriteGame.trim(),
+        achivimants: formData.achivimants.trim(),
+        batches: formData.batches.trim(),
+        realName: formData.realName.trim(),
+        city: formData.city.trim(),
+        country: formData.country.trim(),
+        countryFlag: formData.country.toLowerCase().includes('brasil') || formData.country.toLowerCase().includes('brazil') ? '🇧🇷' : (formData.country ? '🌐' : ''),
+        customUrl: formData.customUrl.trim(),
+        socialLinks: {
+          github: formData.github.trim(),
+          linkedin: formData.linkedin.trim(),
+          email: formData.email.trim(),
+          portfolio: userProfile?.socialLinks?.portfolio || ''
+        }
+      };
+      await updateUserProfile(updates);
       onClose();
     } catch (err) {
       console.error('Erro ao salvar perfil:', err);
@@ -55,24 +110,62 @@ export default function EditProfileModal({ isOpen, onClose }) {
 
         <form onSubmit={handleSubmit}>
           <div className="steam-edit-modal-body">
-            {/* Nome de Exibição */}
+            {/* Nome de Exibição (name / personaName) */}
             <div className="steam-form-group">
-              <label className="steam-form-label">Nome de Perfil (Persona Name)</label>
+              <label className="steam-form-label">Nome de Perfil (name)</label>
               <input
                 type="text"
-                name="personaName"
-                value={formData.personaName}
+                name="name"
+                value={formData.name}
                 onChange={handleChange}
                 className="steam-form-input"
-                placeholder="Ex: GamerDeveloper"
+                placeholder="Seu apelido no Steam"
                 required
               />
             </div>
 
-            {/* Nome Real & Localização */}
+            {/* Jogo Favorito & Conquistas/Insígnias */}
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
               <div className="steam-form-group">
-                <label className="steam-form-label">Nome Real</label>
+                <label className="steam-form-label">Jogo Favorito (favoriteGame)</label>
+                <input
+                  type="text"
+                  name="favoriteGame"
+                  value={formData.favoriteGame}
+                  onChange={handleChange}
+                  className="steam-form-input"
+                  placeholder="Ex: Cyberpunk 2077 ou seu projeto"
+                />
+              </div>
+
+              <div className="steam-form-group">
+                <label className="steam-form-label">Conquistas (achivimants)</label>
+                <input
+                  type="text"
+                  name="achivimants"
+                  value={formData.achivimants}
+                  onChange={handleChange}
+                  className="steam-form-input"
+                  placeholder="Ex: 36 ou marcos alcançados"
+                />
+              </div>
+            </div>
+
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+              <div className="steam-form-group">
+                <label className="steam-form-label">Insígnias (batches)</label>
+                <input
+                  type="text"
+                  name="batches"
+                  value={formData.batches}
+                  onChange={handleChange}
+                  className="steam-form-input"
+                  placeholder="Ex: 5 ou nomes de insígnias"
+                />
+              </div>
+
+              <div className="steam-form-group">
+                <label className="steam-form-label">Nome Real (realName)</label>
                 <input
                   type="text"
                   name="realName"
@@ -82,16 +175,31 @@ export default function EditProfileModal({ isOpen, onClose }) {
                   placeholder="Seu nome completo"
                 />
               </div>
+            </div>
 
+            {/* Localização */}
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
               <div className="steam-form-group">
-                <label className="steam-form-label">Cidade / País</label>
+                <label className="steam-form-label">Cidade</label>
                 <input
                   type="text"
                   name="city"
                   value={formData.city}
                   onChange={handleChange}
                   className="steam-form-input"
-                  placeholder="Ex: São Paulo"
+                  placeholder="Sua cidade"
+                />
+              </div>
+
+              <div className="steam-form-group">
+                <label className="steam-form-label">País</label>
+                <input
+                  type="text"
+                  name="country"
+                  value={formData.country}
+                  onChange={handleChange}
+                  className="steam-form-input"
+                  placeholder="Seu país (ex: Brasil)"
                 />
               </div>
             </div>
@@ -109,16 +217,16 @@ export default function EditProfileModal({ isOpen, onClose }) {
               />
             </div>
 
-            {/* Escolha de Avatar */}
+            {/* Escolha de Avatar (bioPhoto) */}
             <div className="steam-form-group">
-              <label className="steam-form-label">Avatar Oficial Steam</label>
+              <label className="steam-form-label">Avatar Oficial Steam (bioPhoto)</label>
               <div className="steam-avatar-presets-grid">
                 {AVATAR_PRESETS.map((avatar, idx) => (
                   <button
                     key={idx}
                     type="button"
                     className={`steam-avatar-preset-btn ${formData.avatarUrl === avatar ? 'active' : ''}`}
-                    onClick={() => setFormData(prev => ({ ...prev, avatarUrl: avatar }))}
+                    onClick={() => setFormData(prev => ({ ...prev, avatarUrl: avatar, bioPhoto: avatar }))}
                   >
                     <img src={avatar} alt={`Avatar preset ${idx + 1}`} />
                   </button>
@@ -126,17 +234,62 @@ export default function EditProfileModal({ isOpen, onClose }) {
               </div>
             </div>
 
-            {/* Biografia / Resumo */}
+            {/* Biografia / Resumo (bio) */}
             <div className="steam-form-group">
-              <label className="steam-form-label">Resumo / Biografia</label>
+              <label className="steam-form-label">Resumo / Biografia (bio)</label>
               <textarea
                 name="bio"
                 value={formData.bio}
                 onChange={handleChange}
                 className="steam-form-textarea"
-                placeholder="Fale sobre você, sua stack, projetos e jogos favoritos..."
-                rows={5}
+                placeholder="Fale sobre você, sua stack de desenvolvimento, projetos ou jogos favoritos..."
+                rows={4}
               />
+            </div>
+
+            {/* Links Profissionais */}
+            <div style={{ borderTop: '1px solid rgba(84, 133, 166, 0.2)', paddingTop: '14px', marginTop: '10px' }}>
+              <span style={{ fontSize: '12px', fontWeight: 600, color: '#66c0f4', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                Conexões & Redes (Opcional)
+              </span>
+
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginTop: '10px' }}>
+                <div className="steam-form-group">
+                  <label className="steam-form-label">GitHub</label>
+                  <input
+                    type="text"
+                    name="github"
+                    value={formData.github}
+                    onChange={handleChange}
+                    className="steam-form-input"
+                    placeholder="https://github.com/seunome"
+                  />
+                </div>
+
+                <div className="steam-form-group">
+                  <label className="steam-form-label">LinkedIn</label>
+                  <input
+                    type="text"
+                    name="linkedin"
+                    value={formData.linkedin}
+                    onChange={handleChange}
+                    className="steam-form-input"
+                    placeholder="https://linkedin.com/in/seunome"
+                  />
+                </div>
+              </div>
+
+              <div className="steam-form-group">
+                <label className="steam-form-label">E-mail Profissional</label>
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  className="steam-form-input"
+                  placeholder="contato@exemplo.com"
+                />
+              </div>
             </div>
           </div>
 

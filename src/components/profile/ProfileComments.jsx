@@ -69,31 +69,37 @@ export default function ProfileComments() {
 
         {/* Lista de Comentários do Mural */}
         <div className="steam-comments-list">
-          {comments.map((comment) => (
-            <div key={comment.id} className="steam-comment-row">
-              <img
-                src={comment.authorAvatar || 'https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_medium.jpg'}
-                alt={comment.authorName}
-                className="steam-comment-user-avatar"
-              />
+          {comments.length > 0 ? (
+            comments.map((comment) => (
+              <div key={comment.id} className="steam-comment-row">
+                <img
+                  src={comment.authorAvatar || 'https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_medium.jpg'}
+                  alt={comment.authorName}
+                  className="steam-comment-user-avatar"
+                />
 
-              <div className="steam-comment-content">
-                <div className="steam-comment-author-bar">
-                  <div className="steam-comment-author-name">
-                    <span>{comment.authorName}</span>
-                    {comment.authorBadge && (
-                      <span className="steam-comment-badge-tag">{comment.authorBadge}</span>
-                    )}
+                <div className="steam-comment-content">
+                  <div className="steam-comment-author-bar">
+                    <div className="steam-comment-author-name">
+                      <span>{comment.authorName}</span>
+                      {comment.authorBadge && (
+                        <span className="steam-comment-badge-tag">{comment.authorBadge}</span>
+                      )}
+                    </div>
+                    <span className="steam-comment-date">{comment.createdAt}</span>
                   </div>
-                  <span className="steam-comment-date">{comment.createdAt}</span>
-                </div>
 
-                <div className="steam-comment-body-text">
-                  {comment.text}
+                  <div className="steam-comment-body-text">
+                    {comment.text}
+                  </div>
                 </div>
               </div>
+            ))
+          ) : (
+            <div style={{ padding: '24px 16px', textAlign: 'center', color: '#8f98a0', fontSize: '13px' }}>
+              Nenhum comentário no mural ainda. Seja o primeiro a deixar uma recomendação (+rep)!
             </div>
-          ))}
+          )}
         </div>
       </div>
     </div>

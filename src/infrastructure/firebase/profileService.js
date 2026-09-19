@@ -16,82 +16,58 @@ import { db } from './firebaseConfig';
 const LOCAL_PROFILE_PREFIX = 'steam_profile_data_';
 const LOCAL_COMMENTS_PREFIX = 'steam_profile_comments_';
 
-// Perfil padrão caso o usuário ainda não tenha customizado
+// Perfil padrão limpo para novas contas (mapeado para os campos do Firebase)
 export const DEFAULT_USER_PROFILE = {
-  personaName: 'GamerDeveloper',
-  realName: 'Rafael Fagnin',
-  country: 'Brasil',
-  countryFlag: '🇧🇷',
-  city: 'São Paulo',
-  customUrl: 'steamcommunity.com/id/gamerdeveloper_pro',
+  name: '',
+  personaName: '',
+  bio: '',
+  bioPhoto: 'https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg',
   avatarUrl: 'https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg',
-  avatarFrame: 'golden', // 'golden' | 'cyberpunk' | 'neon' | 'fire'
-  status: 'online', // 'online' | 'ingame' | 'away'
-  currentGame: 'Visual Studio Code',
-  level: 42,
-  xp: 4250,
-  xpNextLevel: 5000,
-  yearsOfService: 6,
-  bio: `🚀 Desenvolvedor Full Stack & Entusiasta da Cultura Gamer.
-Apaixonado por construir interfaces de alta fidelidade, arquiteturas limpas e experiências interativas memoráveis.
-
-💻 Stack Principal: React, TypeScript, Node.js, Next.js, C#, Unity, Firebase & TailwindCSS.
-🎮 Jogos Favoritos: Cyberpunk 2077, Baldur's Gate 3, The Witcher 3, Elden Ring.
-🏆 "Talk is cheap. Show me the code." — Linus Torvalds`,
-  featuredBadge: {
-    id: 'legendary_dev',
-    title: 'Desenvolvedor Lendário',
-    icon: '🏆',
-    xp: 500,
-    level: 5,
-    description: 'Desbloqueou todos os marcos principais de arquitetura de software.'
-  },
+  favoriteGame: '',
+  achivimants: '',
+  batches: '',
+  realName: '',
+  country: '',
+  countryFlag: '',
+  city: '',
+  customUrl: '',
+  avatarFrame: 'default',
+  status: 'online',
+  currentGame: '',
+  level: 1,
+  xp: 0,
+  xpNextLevel: 100,
+  yearsOfService: 0,
+  featuredBadge: null,
   socialLinks: {
-    github: 'https://github.com',
-    linkedin: 'https://linkedin.com',
-    portfolio: 'https://portifolio.dev',
-    email: 'contato@desenvolvedor.com'
+    github: '',
+    linkedin: '',
+    portfolio: '',
+    email: ''
   }
 };
 
-// Comentários iniciais mockados para dar vida ao mural (+rep clássico da Steam)
-export const INITIAL_PROFILE_COMMENTS = [
-  {
-    id: 'c1',
-    authorName: 'GabeN_Official',
-    authorAvatar: 'https://avatars.steamstatic.com/b5bd56c1aa4644a474a2e4972b3139e40d955134_medium.jpg',
-    authorBadge: 'Valve Employee',
-    text: '+rep Excelente desenvolvedor! O código deste portfólio ficou no nível de uma Summer Sale!',
-    createdAt: 'Ontem às 18:42'
-  },
-  {
-    id: 'c2',
-    authorName: 'CyberNinja_99',
-    authorAvatar: 'https://avatars.steamstatic.com/c5d17942e47ee20e3fb84577881c19b0d23cb602_medium.jpg',
-    authorBadge: 'Nível 85',
-    text: '+rep Clean Architecture impecável e UI ultra realista da Steam. Recomendo muito para vagas Fullstack!',
-    createdAt: '12 Set às 14:15'
-  },
-  {
-    id: 'c3',
-    authorName: 'TechRecruiter_BR',
-    authorAvatar: 'https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_medium.jpg',
-    authorBadge: 'Recruiter Pro',
-    text: 'Impressionante nível de detalhe no portfólio. Já salvei o perfil e o currículo no meu radar de talentos 🚀',
-    createdAt: '08 Set às 10:20'
-  }
-];
+// Mural de comentários inicial vazio para novas contas
+export const INITIAL_PROFILE_COMMENTS = [];
 
 /**
  * Carrega dados do perfil do usuário (Firestore com fallback no localStorage)
  */
 export async function getUserProfileData(userId, authUser = null) {
-  const fallback = { ...DEFAULT_USER_PROFILE };
+  const fallback = {
+    ...DEFAULT_USER_PROFILE,
+    socialLinks: { ...DEFAULT_USER_PROFILE.socialLinks }
+  };
   
   if (authUser) {
-    if (authUser.displayName) fallback.personaName = authUser.displayName;
-    if (authUser.email) fallback.email = authUser.email;
-    if (authUser.photoURL) fallback.avatarUrl = authUser.photoURL;
+    const authName = authUser.displayName || (authUser.email ? authUser.email.split('@')[0] : '');
+    fallback.name = authName;
+    fallback.personaName = authName;
+    if (authUser.email) fallback.socialLinks.email = authUser.email;
+    if (authUser.photoURL) {
+      fallback.bioPhoto = authUser.photoURL;
+      fallback.avatarUrl = authUser.photoURL;
+    }
   }
 
   if (!userId) return fallback;
@@ -105,13 +81,57 @@ export async function getUserProfileData(userId, authUser = null) {
     console.warn('[ProfileService] Erro ao ler local storage:', err);
   }
 
-  // 2. Tentar buscar do Firestore
+  // 2. Tentar buscar do Firestore (verificando o documento do usuário)
   try {
-    const docRef = doc(db, 'users', userId, 'profile', 'info');
-    const docSnap = await getDoc(docRef);
-    if (docSnap.exists()) {
-      const firestoreData = { ...fallback, ...docSnap.data() };
-      localStorage.setItem(LOCAL_PROFILE_PREFIX + userId, JSON.stringify(firestoreData));
+    let docSnap = null;
+    // Tenta em 'users' ou 'user'
+    const docRefUsers = doc(db, 'users', userId);
+    docSnap = await getDoc(docRefUsers);
+    
+    if (!docSnap.exists()) {
+      const docRefUser = doc(db, 'user', userId);
+      docSnap = await getDoc(docRefUser);
+    }
+
+    // Se ainda não achou, tenta o caminho legado
+    if (!docSnap.exists()) {
+      const docRefLegacy = doc(db, 'users', userId, 'profile', 'info');
+      docSnap = await getDoc(docRefLegacy);
+    }
+
+    if (docSnap && docSnap.exists()) {
+      const rawData = docSnap.data();
+      // O perfil pode estar dentro do campo map 'profile' ou na raiz do doc
+      const p = rawData.profile || rawData;
+      
+      const firestoreData = {
+        ...fallback,
+        name: p.name || p.personaName || fallback.name,
+        personaName: p.name || p.personaName || fallback.name,
+        bio: p.bio !== undefined ? p.bio : fallback.bio,
+        bioPhoto: p.bioPhoto || p.avatarUrl || fallback.bioPhoto,
+        avatarUrl: p.bioPhoto || p.avatarUrl || fallback.bioPhoto,
+        favoriteGame: p.favoriteGame || '',
+        achivimants: p.achivimants !== undefined ? String(p.achivimants) : '',
+        batches: p.batches !== undefined ? String(p.batches) : '',
+        realName: p.realName || fallback.realName,
+        city: p.city || fallback.city,
+        country: p.country || fallback.country,
+        countryFlag: p.countryFlag || (
+          (p.country || '').toLowerCase().includes('brasil') ? '🇧🇷' : ''
+        ),
+        level: p.level !== undefined ? Number(p.level) : fallback.level,
+        socialLinks: {
+          ...fallback.socialLinks,
+          ...(p.socialLinks || {})
+        }
+      };
+
+      try {
+        localStorage.setItem(LOCAL_PROFILE_PREFIX + userId, JSON.stringify(firestoreData));
+      } catch (err) {
+        // storage quota
+      }
       return firestoreData;
     }
   } catch (error) {
@@ -123,7 +143,7 @@ export async function getUserProfileData(userId, authUser = null) {
 }
 
 /**
- * Salva alterações no perfil do usuário
+ * Salva alterações no perfil do usuário no Firebase (atualiza mapa profile e cache local)
  */
 export async function saveUserProfileData(userId, profileUpdates) {
   if (!userId) return false;
@@ -131,24 +151,51 @@ export async function saveUserProfileData(userId, profileUpdates) {
   // 1. Atualiza LocalStorage
   try {
     const current = await getUserProfileData(userId);
-    const updated = { ...current, ...profileUpdates };
+    const updated = {
+      ...current,
+      ...profileUpdates,
+      name: profileUpdates.name || profileUpdates.personaName || current.name,
+      personaName: profileUpdates.name || profileUpdates.personaName || current.name,
+      bioPhoto: profileUpdates.bioPhoto || profileUpdates.avatarUrl || current.bioPhoto,
+      avatarUrl: profileUpdates.bioPhoto || profileUpdates.avatarUrl || current.bioPhoto
+    };
     localStorage.setItem(LOCAL_PROFILE_PREFIX + userId, JSON.stringify(updated));
   } catch (err) {
     console.warn('[ProfileService] Falha ao salvar cache local do perfil:', err);
   }
 
-  // 2. Salva no Firestore
+  // 2. Salva no Firestore estruturado como no Firebase (mapa profile)
+  const profileMap = {
+    achivimants: profileUpdates.achivimants !== undefined ? String(profileUpdates.achivimants) : '',
+    batches: profileUpdates.batches !== undefined ? String(profileUpdates.batches) : '',
+    bio: profileUpdates.bio !== undefined ? profileUpdates.bio : '',
+    bioPhoto: profileUpdates.bioPhoto || profileUpdates.avatarUrl || '',
+    favoriteGame: profileUpdates.favoriteGame || '',
+    name: profileUpdates.name || profileUpdates.personaName || ''
+  };
+
+  // Campos complementares opcionais
+  if (profileUpdates.realName !== undefined) profileMap.realName = profileUpdates.realName;
+  if (profileUpdates.city !== undefined) profileMap.city = profileUpdates.city;
+  if (profileUpdates.country !== undefined) profileMap.country = profileUpdates.country;
+
+  const docPayload = {
+    profile: profileMap,
+    updatedAt: serverTimestamp()
+  };
+
   try {
-    const docRef = doc(db, 'users', userId, 'profile', 'info');
-    await setDoc(docRef, {
-      ...profileUpdates,
-      updatedAt: serverTimestamp()
-    }, { merge: true });
-    return true;
-  } catch (error) {
-    console.warn('[ProfileService] Erro ao salvar perfil no Firestore:', error.message);
-    return true; // Retorna true pois foi persistido no cache local
+    // Tenta salvar em 'users' e 'user'
+    await setDoc(doc(db, 'users', userId), docPayload, { merge: true });
+  } catch (err) {
+    try {
+      await setDoc(doc(db, 'user', userId), docPayload, { merge: true });
+    } catch (err2) {
+      console.warn('[ProfileService] Erro ao salvar perfil no Firestore:', err2.message);
+    }
   }
+
+  return true;
 }
 
 /**
